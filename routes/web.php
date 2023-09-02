@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//admin 
+Route::prefix('superAdmin')->middleware(['auth','isAdmin','isSuperAdmin'])->group(function(){
+
+});
+
+Route::prefix('admin')->middleware(['auth','isAdmin','isSuperAdmin'])->group(function(){
+
+});
+
+Route::prefix('user')->middleware(['auth','isAdmin','isSuperAdmin'])->group(function(){
+
 });
