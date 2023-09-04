@@ -16,16 +16,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //super admin role = 0
-        //admin role = 1
+        //admin role = 0
         //user role = 1
         if (Auth::check()) {
             if (Auth::user()->role == '0') {
-                //return super admin
                 return $next($request);
-            if (Auth::user()->role == '1') {
-                return $next($request);
-            }
             }else{
                 return redirect('/home')->with('message','Access Denied!, Your are not an admin');
             }
@@ -34,5 +29,6 @@ class AdminMiddleware
         }
 
         return $next($request);
+
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,15 +25,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//admin 
-Route::prefix('superAdmin')->middleware(['auth','isAdmin','isSuperAdmin'])->group(function(){
-
+//admin
+Route::prefix('admin')->middleware(['role:0'])->group(function(){
+    Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
 });
 
-Route::prefix('admin')->middleware(['auth','isAdmin','isSuperAdmin'])->group(function(){
-
-});
-
-Route::prefix('user')->middleware(['auth','isAdmin','isSuperAdmin'])->group(function(){
+Route::prefix('user')->middleware(['role:1'])->group(function(){
+    Route::get('/index', [UserController::class, 'index'])->name('user_index');
 
 });

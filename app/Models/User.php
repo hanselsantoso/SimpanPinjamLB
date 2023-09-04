@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'nik',
+        'telp',
         'password',
     ];
 
@@ -43,4 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(){
+        return $this->role === 1;
+    }
+
+    public function isUser(){
+        return $this->role === 2;
+    }
+
+
 }
