@@ -28,6 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //admin
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
+    Route::post('/detailUser', [AdminController::class, 'detailUser'])->name('detailUser');
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){
