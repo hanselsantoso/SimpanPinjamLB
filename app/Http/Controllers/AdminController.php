@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\simpanan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,14 @@ class AdminController extends Controller
 
     public function detailUser(Request $request){
         $user = User::find($request->idUser);
+        $simpanan = simpanan::
+        where('id_user',$request->idUser)
+        ->where('status',1)
+        ->orWhere('status',0)
+        ->get();
         return view('Admin.detailUser',with([
-            'user'=>$user
+            'user'=>$user,
+            'simpanan'=>$simpanan
         ]));
     }
 }

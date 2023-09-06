@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\simpananController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
     Route::post('/detailUser', [AdminController::class, 'detailUser'])->name('detailUser');
+
+
+    Route::post('/createSimpanan', [simpananController::class, 'doCreate'])->name('createSimpanan');
+
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){

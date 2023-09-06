@@ -3,7 +3,7 @@
     <div class="main">
         <div class="container">
 
-            <table id="myTable" class="table table-striped table-bordered">
+            <table id="tabelUser" class="table table-striped table-bordered">
                 <thead>
                   <tr>
                     <th>No.</th>
@@ -37,4 +37,13 @@
               </table>
         </div>
     </div>
+@endsection
+@section('script')
+<script>
+
+    $('#tabelUser').DataTable({
+        "paging": true,
+        "pageLength": 10,
+    });
+</script>
 @endsection

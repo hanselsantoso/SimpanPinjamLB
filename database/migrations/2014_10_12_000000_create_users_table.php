@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('nik');
             $table->string('telp');
+            $table->bigInteger('total_simpanan')->default(0);
+            $table->bigInteger('total_pinjaman')->default(0);
+            $table->bigInteger('minimal_bayar')->default(0);
             $table->tinyInteger('status');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

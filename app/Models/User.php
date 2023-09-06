@@ -24,6 +24,9 @@ class User extends Authenticatable
         'telp',
         'password',
         'status',
+        'total_simpanan',
+        'total_pinjaman',
+        'minimal_bayar'
     ];
 
     /**
