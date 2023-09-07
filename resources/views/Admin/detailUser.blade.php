@@ -31,14 +31,14 @@
                             @foreach ($simpanan as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
-                                    <td>{{$item["tanggal"]}}</td>
+                                    <td>{{$item->getTanggal($item["tanggal"])}}</td>
                                     <td>{{$item["nominal"]}}</td>
                                     <td>{{$item->getStatusSimpanan($item["status"])}}</td>
                                     <td>
                                         @if ($item["status"] == 0)
 
                                         @else
-                                            <button class="btn btn-warning" style="text-justify: center">
+                                            <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
                                                 <span>Ubah</span>
                                             </button>
                                             <button class="btn btn-danger" style="text-justify: center">
@@ -139,15 +139,15 @@
                 </div>
                 <form action="/admin/createSimpanan" method="post">
                     @csrf
-                    <input type="hidden" name="idUser" value="{{$user["id"]}}">
+                    <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}">
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="datepicker">Pilih tanggal:</label>
-                                <input type="text" class="form-control" id="tgl" name="tgl">
+                                <input type="text" class="form-control" id="tglSimpanan" name="tgl">
                             </div>
                             <div class="form-group">
                                 <label for="name">Nominal:</label>
-                                <input type="number" class="form-control" name="nominal" id="nominal">
+                                <input type="number" class="form-control" name="nominalSimpanan" id="nominal">
                             </div>
                     </div>
 
@@ -174,11 +174,11 @@
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="datepicker">Pilih tanggal:</label>
-                                <input type="text" class="form-control" id="tglSimpan" name="tgl">
+                                <input type="text" class="form-control" id="tglSimpananUpdate" name="tgl">
                             </div>
                             <div class="form-group">
                                 <label for="name">Nominal:</label>
-                                <input type="number" class="form-control" name="nominal" id="nominalSimpan">
+                                <input type="number" class="form-control" name="nominal" id="nominalSimpananUpdate">
                             </div>
                     </div>
 
@@ -197,20 +197,36 @@
 @section('script')
 <script>
     $(document).ready(function () {
+        $('#tglSimpanan').datepicker({
+            // format: 'yyyy-mm-dd', // You can change the date format
+            format: 'dd-mm-yyyy', // You can change the date format
+            autoclose: true
+        });
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+        today = dd + '-' + mm + '-' + yyyy;
 
+        // Set the default value property to today's date
+        $("#tglSimpanan").val(today);
+        $('#tglSimpananUpdate').datepicker({
+            // format: 'yyyy-mm-dd', // You can change the date format
+            format: 'dd-mm-yyyy', // You can change the date format
+            autoclose: true
+        });
         var table = $('#tabelSimpan').DataTable({
             "paging": true,
             "pageLength": 10,
         });
-        $('#tabelSimpan tbody').on('click', 'tr', function() {
-        var data = table.row(this).data(); // Get the data of the clicked row
-            alert(data[1])
-            let tgl = data[1]
-            let nominal = data[2]
-            let status = data[3]
-            $('#tglSimpan').val(tgl)
-            $('#tglSimpan').val(tgl)
-            $('#tglSimpan').val(tgl)
+        $('.buttonEdit').on('click', function() {
+            var row = $(this).closest('tr');
+            let tgl = row.find('td:eq(1)').text(); 
+            let nominal = row.find('td:eq(2)').text(); 
+            let id = row.find('.hidden-value').val();
+            $("#tglSimpananUpdate").datepicker("setDate", tgl);
+            $('#nominalSimpananUpdate').val(nominal)
+            $('#idUserSimpanan').val(id)
         });
     });
 

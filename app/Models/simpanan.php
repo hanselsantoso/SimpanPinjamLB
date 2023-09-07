@@ -29,4 +29,9 @@ class simpanan extends Model
     {
         return $this->status[$value];
     }
+
+    public function getTanggal($value)
+{
+    return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
+}
 }
