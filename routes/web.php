@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
 
     Route::post('/createSimpanan', [simpananController::class, 'doCreate'])->name('createSimpanan');
 
+    Route::get('/aturan', [simpananController::class, 'aturan'])->name('aturan');
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){

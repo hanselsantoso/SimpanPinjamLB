@@ -61,4 +61,8 @@ class simpananController extends Controller
 
 
     }
+
+    public function aturan(Request $request){
+        return view('Admin.Aturan.simpanan');
+    }
 }

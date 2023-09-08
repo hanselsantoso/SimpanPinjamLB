@@ -6,11 +6,11 @@
                 <div class="header">
                     <div class="row">
                         <div class="col-8">
-                            <h5>{{$user["name"]}} - {{$user["total_simpanan"]}}</h5>
+                            {{-- <h5>{{$user["name"]}} - {{$user["total_simpanan"]}}</h5> --}}
                         </div>
                         <div class="col-4" style="text-align: right">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createSimpanan">
-                                Tambah Simpanan
+                                Tambah Aturan
                             </button>
                         </div>
                     </div>
@@ -21,14 +21,14 @@
                         <thead>
                           <tr>
                             <th>No.</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
+                            <th>Minimal Tabungan</th>
+                            <th>Pinjaman</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                            @foreach ($simpanan as $item)
+                            {{-- @foreach ($simpanan as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
                                     <td>{{$item->getTanggal($item["tanggal"])}}</td>
@@ -49,77 +49,7 @@
 
                                     </td>
                                 </tr>
-                            @endforeach
-
-
-
-                        </tbody>
-                      </table>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-8">
-                            <h5>Batas Peminjaman - {{$user["total_pinjaman"]}}</h5>
-                        </div>
-                        <div class="col-4" style="text-align: right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Tambah Pinjaman
-                            </button>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-                <div class="content">
-                    <table id="tabelSimpan" class="table table-striped table-bordered">
-                        <thead>
-                          <tr>
-                            <th>No.</th>
-                            <th>Tanggal</th>
-                            <th>Pinjaman</th>
-                            <th>Bunga</th>
-                            <th>Total Bayar</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>23-08-2023</td>
-                                <td>1.000.000</td>
-                                <td>300.000</td>
-                                <td>1.300.000</td>
-                                <td>Pinjaman</td>
-                                <td>
-                                    <button class="btn btn-warning" style="text-justify: center">
-                                        <span>Ubah</span>
-                                    </button>
-                                    <button class="btn btn-danger" style="text-justify: center">
-                                        <span>Hapus</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>23-08-2023</td>
-                                <td>1.000.000</td>
-                                <td>300.000</td>
-                                <td>1.300.000</td>
-                                <td>Angsuran</td>
-                                <td>
-                                    <button class="btn btn-warning" style="text-justify: center">
-                                        <span>Ubah</span>
-                                    </button>
-                                    <button class="btn btn-danger" style="text-justify: center">
-                                        <span>Hapus</span>
-                                    </button>
-                                </td>
-                            </tr>
-
-
+                            @endforeach --}}
                         </tbody>
                       </table>
                 </div>
@@ -139,7 +69,7 @@
                 </div>
                 <form action="/admin/createSimpanan" method="post">
                     @csrf
-                    <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}">
+                    {{-- <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}"> --}}
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="datepicker">Pilih tanggal:</label>
@@ -165,20 +95,20 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Form Modal</h4>
+                    <h4 class="modal-title">Tambah Aturan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createSimpanan" method="post">
+                <form action="/admin/createAturan" method="post">
                     @csrf
-                    <input type="hidden" name="idUser" value="{{$user["id"]}}">
+                    {{-- <input type="hidden" name="idUser" value="{{$user["id"]}}"> --}}
                     <div class="modal-body">
                             <div class="form-group">
-                                <label for="datepicker">Pilih tanggal:</label>
-                                <input type="text" class="form-control" id="tglSimpananUpdate" name="tgl">
+                                <label for="name">Minimal Simpanan:</label>
+                                <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpanan">
                             </div>
                             <div class="form-group">
-                                <label for="name">Nominal:</label>
-                                <input type="number" class="form-control" name="nominal" id="nominalSimpananUpdate">
+                                <label for="name">Pinjaman:</label>
+                                <input type="number" class="form-control" name="pinjaman" id="pinjaman">
                             </div>
                     </div>
 
