@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('aturan', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('minimal_tabungan');
+            $table->bigInteger('pinjaman');
+            $table->bigInteger('status');
             $table->timestamps();
         });
     }

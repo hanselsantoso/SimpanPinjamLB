@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aturan;
 use App\Models\simpanan;
 use App\Models\User;
 use Carbon\Carbon;
@@ -63,6 +64,19 @@ class simpananController extends Controller
     }
 
     public function aturan(Request $request){
-        return view('Admin.Aturan.simpanan');
+        $aturan = Aturan::all();
+        return view('Admin.Aturan.simpanan',with([
+            'aturan' => $aturan
+        ]));
+    }
+
+    public function doCreateAturan(Request $request){
+        $data = Aturan::create([
+            'minimal_tabungan' => $request->minimalSimpanan,
+            'pinjaman' => $request->pinjaman,
+            'status' => 1,
+        ]);
+
+        return redirect()->back()->with("success, Telah berhasil membuat aturan baru");
     }
 }

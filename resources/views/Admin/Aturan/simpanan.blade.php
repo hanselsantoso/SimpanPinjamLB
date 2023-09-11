@@ -28,28 +28,31 @@
                           </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($simpanan as $item)
+                            @foreach ($aturan as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
-                                    <td>{{$item->getTanggal($item["tanggal"])}}</td>
-                                    <td>{{$item["nominal"]}}</td>
-                                    <td>{{$item->getStatusSimpanan($item["status"])}}</td>
+                                    <td>{{$item["minimal_tabungan"]}}</td>
+                                    <td>{{$item["pinjaman"]}}</td>
                                     <td>
                                         @if ($item["status"] == 0)
-
+                                            Non - Aktif
                                         @else
+                                            Aktif
+                                        @endif
+
+                                    </td>
+                                    <td>
                                             <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
                                                 <span>Ubah</span>
                                             </button>
                                             <button class="btn btn-danger" style="text-justify: center">
                                                 <span>Hapus</span>
                                             </button>
-                                        @endif
 
 
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                       </table>
                 </div>
@@ -64,21 +67,21 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Form Modal</h4>
+                    <h4 class="modal-title">Tambah Aturan Simpanan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createSimpanan" method="post">
+                <form action="/admin/createAturan" method="post">
                     @csrf
                     {{-- <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}"> --}}
                     <div class="modal-body">
-                            <div class="form-group">
-                                <label for="datepicker">Pilih tanggal:</label>
-                                <input type="text" class="form-control" id="tglSimpanan" name="tgl">
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Nominal:</label>
-                                <input type="number" class="form-control" name="nominalSimpanan" id="nominal">
-                            </div>
+                        <div class="form-group">
+                            <label for="name">Minimal Simpanan:</label>
+                            <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpanan">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Pinjaman:</label>
+                            <input type="number" class="form-control" name="pinjaman" id="pinjaman">
+                        </div>
                     </div>
 
                     <!-- Modal footer -->
@@ -95,7 +98,7 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Aturan</h4>
+                    <h4 class="modal-title">Ubah Aturan Simpanan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <form action="/admin/createAturan" method="post">
@@ -127,24 +130,6 @@
 @section('script')
 <script>
     $(document).ready(function () {
-        $('#tglSimpanan').datepicker({
-            // format: 'yyyy-mm-dd', // You can change the date format
-            format: 'dd-mm-yyyy', // You can change the date format
-            autoclose: true
-        });
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-        var yyyy = today.getFullYear();
-        today = dd + '-' + mm + '-' + yyyy;
-
-        // Set the default value property to today's date
-        $("#tglSimpanan").val(today);
-        $('#tglSimpananUpdate').datepicker({
-            // format: 'yyyy-mm-dd', // You can change the date format
-            format: 'dd-mm-yyyy', // You can change the date format
-            autoclose: true
-        });
         var table = $('#tabelSimpan').DataTable({
             "paging": true,
             "pageLength": 10,
