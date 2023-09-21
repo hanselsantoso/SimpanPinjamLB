@@ -29,14 +29,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //admin
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
-    Route::post('/detailUser', [AdminController::class, 'detailUser'])->name('detailUser');
+    Route::get('/detailUser{id}', [AdminController::class, 'detailUser'])->name('detailUser');
 
 
     Route::post('/createSimpanan', [simpananController::class, 'doCreate'])->name('createSimpanan');
+    Route::post('/updateSimpanan', [simpananController::class, 'doUpdate'])->name('updateSimpanan');
 
     Route::get('/aturan', [simpananController::class, 'aturan'])->name('aturan');
 
     Route::post('/createAturan', [simpananController::class, 'doCreateAturan'])->name('createAturan');
+    Route::post('/updateAturan', [simpananController::class, 'doUpdateAturan'])->name('updateAturan');
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){

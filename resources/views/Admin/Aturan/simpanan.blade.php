@@ -31,6 +31,7 @@
                             @foreach ($aturan as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
+                                    <input type="hidden" value="{{$item["id"]}}">
                                     <td>{{$item["minimal_tabungan"]}}</td>
                                     <td>{{$item["pinjaman"]}}</td>
                                     <td>
@@ -101,17 +102,18 @@
                     <h4 class="modal-title">Ubah Aturan Simpanan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createAturan" method="post">
+                <form action="/admin/updateAturan" method="post">
                     @csrf
-                    {{-- <input type="hidden" name="idUser" value="{{$user["id"]}}"> --}}
+                    <input type="hidden" id="idUserSimpanan" name="idUserSimpanan" value="
+                    ">
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="name">Minimal Simpanan:</label>
-                                <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpanan">
+                                <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpananUpdate">
                             </div>
                             <div class="form-group">
                                 <label for="name">Pinjaman:</label>
-                                <input type="number" class="form-control" name="pinjaman" id="pinjaman">
+                                <input type="number" class="form-control" name="pinjaman" id="pinjamanUpdate">
                             </div>
                     </div>
 
@@ -136,11 +138,11 @@
         });
         $('.buttonEdit').on('click', function() {
             var row = $(this).closest('tr');
-            let tgl = row.find('td:eq(1)').text();
-            let nominal = row.find('td:eq(2)').text();
-            let id = row.find('.hidden-value').val();
-            $("#tglSimpananUpdate").datepicker("setDate", tgl);
-            $('#nominalSimpananUpdate').val(nominal)
+            let minimalTabungan = row.find('td:eq(1)').text();1
+            let pinjaman = row.find('td:eq(2)').text();
+            let id = row.find('input[type="hidden"]').val();
+            $("#minimalSimpananUpdate").val(minimalTabungan);
+            $('#pinjamanUpdate').val(pinjaman)
             $('#idUserSimpanan').val(id)
         });
     });

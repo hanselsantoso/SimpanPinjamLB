@@ -22,13 +22,12 @@
                             <td> {{$item["email"] }}</td>
                             <td> {{$item["telp"] }}</td>
                             <td>
-                                <form action="/admin/detailUser" method="post">
-                                    @csrf
-                                    <button class="btn btn-primary" style="text-justify: center">
-                                        <input value="{{$item["id"]}}" type="hidden" name="idUser">
-                                        <span>View</span>
-                                    </button>
-                                </form>
+                                <a href="{{ route('detailUser', ['id' => $item["id"]]) }}" class="btn btn-link">View</a>
+
+                                {{-- <button class="btn btn-primary" style="text-justify: center">
+                                    <input value="{{$item["id"]}}" type="hidden" name="idUser">
+                                    <span>View</span>
+                                </button> --}}
                             </td>
                         </tr>
                     @endforeach

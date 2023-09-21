@@ -31,6 +31,7 @@
                             @foreach ($simpanan as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
+                                    <input type="hidden" id="idSimpanan" value="{{$item["id"]}}">
                                     <td>{{$item->getTanggal($item["tanggal"])}}</td>
                                     <td>{{$item["nominal"]}}</td>
                                     <td>{{$item->getStatusSimpanan($item["status"])}}</td>
@@ -147,7 +148,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Nominal:</label>
-                                <input type="number" class="form-control" name="nominalSimpanan" id="nominal">
+                                <input type="number" class="form-control" name="nominal" id="nominalSimpanan">
                             </div>
                     </div>
 
@@ -168,9 +169,10 @@
                     <h4 class="modal-title">Form Modal</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createSimpanan" method="post">
+                <form action="/admin/updateSimpanan" method="post">
                     @csrf
                     <input type="hidden" name="idUser" value="{{$user["id"]}}">
+                    <input type="hidden" name="idSimpanan" id="idSimpananUpdate" value="">
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="datepicker">Pilih tanggal:</label>
@@ -223,10 +225,11 @@
             var row = $(this).closest('tr');
             let tgl = row.find('td:eq(1)').text();
             let nominal = row.find('td:eq(2)').text();
-            let id = row.find('.hidden-value').val();
+            let id = row.find('input[type="hidden"]').val();
             $("#tglSimpananUpdate").datepicker("setDate", tgl);
+            // console.log(id)
             $('#nominalSimpananUpdate').val(nominal)
-            $('#idUserSimpanan').val(id)
+            $('#idSimpananUpdate').val(id)
         });
     });
 

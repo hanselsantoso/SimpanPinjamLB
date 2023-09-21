@@ -44,23 +44,27 @@ class simpananController extends Controller
             ]);
         }
         if ($data->save()) {
-            // return redirect()->back()->with('success', 'Berhasil menyimpan data simpanan!');
-            return view('Admin.detailUser',with([
-                'user'=>$user,
-                'simpanan'=>$simpanan,
-                'success' => 'Berhasil menyimpan data simpanan!'
-            ]));
+            return redirect()->back()->with('success', 'Berhasil menyimpan data simpanan!');
 
         }else{
-            // return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
-            return view('Admin.detailUser',with([
-                'user'=>$user,
-                'simpanan'=>$simpanan,
-                'errors' => 'Terjadi kesalahan, coba ulangi lagi'
-            ]));
+            return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
         }
+    }
 
+    public function doUpdate(Request $request){
+        $data = simpanan::where('id',$request->idSimpanan)
+        ->where('id_user',$request->idUser)
+         ->update([
+            'tanggal' => Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d'),
+            'nominal' => $request->nominal,
+         ]);
 
+         if ($data) {
+            return redirect()->back()->with('success', 'Berhasil menyimpan data simpanan!');
+
+        }else{
+            return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
+        }
     }
 
     public function aturan(Request $request){
@@ -76,7 +80,28 @@ class simpananController extends Controller
             'pinjaman' => $request->pinjaman,
             'status' => 1,
         ]);
+        if ($data->save()) {
+            return redirect()->back()->with("success, Telah berhasil membuat aturan baru");
 
-        return redirect()->back()->with("success, Telah berhasil membuat aturan baru");
+        }else{
+            return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
+        }
     }
+
+    public function doUpdateAturan(Request $request){
+        $data = aturan::where('id',$request->idUserSimpanan)
+         ->update([
+            'minimal_tabungan' => $request->minimalSimpanan,
+            'pinjaman' => $request->pinjaman,
+         ]);
+
+         if ($data) {
+            return redirect()->back()->with('success', 'Berhasil menyimpan data simpanan!');
+
+        }else{
+            return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
+        }
+    }
+
+
 }
