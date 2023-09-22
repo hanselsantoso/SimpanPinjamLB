@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aturan;
-use App\Models\simpanan;
+use App\Models\Simpanan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,20 +13,20 @@ class simpananController extends Controller
 {
     public function doCreate(Request $request){
         // dd($request);
-        $count = simpanan::where('id_user',$request->idUser)
+        $count = Simpanan::where('id_user',$request->idUser)
         ->where('status',0)
         ->count();
         // dd($count);
         $data = null;
         $user = User::find($request->idUser);
-        $simpanan = simpanan::
+        $simpanan = Simpanan::
         where('id_user',$request->idUser)
         ->where('status',1)
         ->orWhere('status',0)
         ->get();
         // dd(Carbon::createFromFormat('d-m-Y', $request->tgl)->format('d-m-Y'));
         if ($count < 1) {
-            $data = simpanan::create([
+            $data = Simpanan::create([
                 'id_user' => $request->idUser,
                 'id_admin' => Auth::id(),
                 'tanggal' => Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d'),
@@ -35,7 +35,7 @@ class simpananController extends Controller
             ]);
         }
         else{
-            $data = simpanan::create([
+            $data = Simpanan::create([
                 'id_user' => $request->idUser,
                 'id_admin' => Auth::id(),
                 'tanggal' => Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d'),
@@ -52,7 +52,7 @@ class simpananController extends Controller
     }
 
     public function doUpdate(Request $request){
-        $data = simpanan::where('id',$request->idSimpanan)
+        $data = Simpanan::where('id',$request->idSimpanan)
         ->where('id_user',$request->idUser)
          ->update([
             'tanggal' => Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d'),
@@ -89,7 +89,7 @@ class simpananController extends Controller
     }
 
     public function doUpdateAturan(Request $request){
-        $data = aturan::where('id',$request->idUserSimpanan)
+        $data = Aturan::where('id',$request->idUserSimpanan)
          ->update([
             'minimal_tabungan' => $request->minimalSimpanan,
             'pinjaman' => $request->pinjaman,
