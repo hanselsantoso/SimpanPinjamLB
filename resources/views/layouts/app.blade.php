@@ -42,6 +42,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/aturan">{{ __('Simpanan') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/bunga">{{ __('Bunga') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

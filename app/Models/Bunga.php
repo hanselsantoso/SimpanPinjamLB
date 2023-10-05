@@ -13,8 +13,7 @@ class Bunga extends Model
     protected $table = 'bunga';
 
     protected $fillable = [
-        'minimal_tabungan',
-        'pinjaman',
+        'bunga',
         'status',
     ];
 }

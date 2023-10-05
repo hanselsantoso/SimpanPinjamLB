@@ -9,7 +9,7 @@
                             {{-- <h5>{{$user["name"]}} - {{$user["total_simpanan"]}}</h5> --}}
                         </div>
                         <div class="col-4" style="text-align: right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createSimpanan">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createBunga">
                                 Tambah Aturan
                             </button>
                         </div>
@@ -21,19 +21,17 @@
                         <thead>
                           <tr>
                             <th>No.</th>
-                            <th>Minimal Tabungan</th>
-                            <th>Pinjaman</th>
+                            <th>Besar Bunga (%)</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                            @foreach ($aturan as $item)
+                            @foreach ($bunga as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
                                     <input type="hidden" value="{{$item["id"]}}">
-                                    <td>{{$item["minimal_tabungan"]}}</td>
-                                    <td>{{$item["pinjaman"]}}</td>
+                                    <td>{{$item["bunga"]}}</td>
                                     <td>
                                         @if ($item["status"] == 0)
                                             Non - Aktif
@@ -43,12 +41,27 @@
 
                                     </td>
                                     <td>
-                                            <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
+                                            <button data-toggle="modal" data-target="#updateBunga" class="buttonEdit btn btn-warning" style="text-justify: center">
                                                 <span>Ubah</span>
                                             </button>
-                                            <button class="btn btn-danger" style="text-justify: center">
-                                                <span>Hapus</span>
-                                            </button>
+                                            @if ($item["status"] == 0)
+                                                <form action="/admin/aktifBunga" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item["id"]}}">
+                                                    <button class="btn btn-danger" style="text-justify: center">
+                                                        <span>Aktifkan</span>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="/admin/deleteBunga" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{$item["id"]}}">
+                                                    <button class="btn btn-danger" style="text-justify: center">
+                                                        <span>Non-Aktifkan</span>
+                                                    </button>
+                                                </form>
+                                            @endif
+
 
 
                                     </td>
@@ -63,7 +76,7 @@
 
     </div>
 
-    <div class="modal fade" id="createSimpanan">
+    <div class="modal fade" id="createBunga">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -71,17 +84,13 @@
                     <h4 class="modal-title">Tambah Aturan Simpanan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createAturan" method="post">
+                <form action="/admin/createBunga" method="post">
                     @csrf
                     {{-- <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}"> --}}
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Minimal Simpanan:</label>
-                            <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpanan">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Pinjaman:</label>
-                            <input type="number" class="form-control" name="pinjaman" id="pinjaman">
+                            <label for="name">Bunga :</label>
+                            <input type="number" class="form-control" name="bunga" id="bunga">
                         </div>
                     </div>
 
@@ -94,27 +103,23 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="updateSimpanan">
+    <div class="modal fade" id="updateBunga">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Ubah Aturan Simpanan</h4>
+                    <h4 class="modal-title">Ubah Aturan Bunga</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/updateAturan" method="post">
+                <form action="/admin/updateBunga" method="post">
                     @csrf
-                    <input type="hidden" id="idUserSimpanan" name="idUserSimpanan" value="
+                    <input type="hidden" id="idUserBunga" name="idUserBunga" value="
                     ">
                     <div class="modal-body">
-                            <div class="form-group">
-                                <label for="name">Minimal Simpanan:</label>
-                                <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpananUpdate">
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Pinjaman:</label>
-                                <input type="number" class="form-control" name="pinjaman" id="pinjamanUpdate">
-                            </div>
+                        <div class="form-group">
+                            <label for="name">Bunga:</label>
+                            <input type="number" class="form-control" name="bunga" id="bungaUpdate">
+                        </div>
                     </div>
 
                     <!-- Modal footer -->
@@ -138,12 +143,10 @@
         });
         $('.buttonEdit').on('click', function() {
             var row = $(this).closest('tr');
-            let minimalTabungan = row.find('td:eq(1)').text();
-            let pinjaman = row.find('td:eq(2)').text();
+            let bunga = row.find('td:eq(1)').text();
             let id = row.find('input[type="hidden"]').val();
-            $("#minimalSimpananUpdate").val(minimalTabungan);
-            $('#pinjamanUpdate').val(pinjaman)
-            $('#idUserSimpanan').val(id)
+            $('#bungaUpdate').val(bunga)
+            $('#idUserBunga').val(id)
         });
     });
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BungaController;
 use App\Http\Controllers\simpananController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,13 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
 
     Route::post('/createAturan', [simpananController::class, 'doCreateAturan'])->name('createAturan');
     Route::post('/updateAturan', [simpananController::class, 'doUpdateAturan'])->name('updateAturan');
+
+    Route::get('/bunga', [BungaController::class, 'index'])->name('bunga');
+    Route::post('/createBunga', [BungaController::class, 'doCreateBunga'])->name('createBunga');
+    Route::post('/updateBunga', [BungaController::class, 'doUpdateBunga'])->name('updateBunga');
+    Route::post('/deleteBunga', [BungaController::class, 'doDeleteBunga'])->name('deleteBunga');
+    Route::post('/aktifBunga', [BungaController::class, 'doAktifBunga'])->name('aktifBunga');
+
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){
