@@ -22,7 +22,7 @@
                             <td> {{$item["email"] }}</td>
                             <td> {{$item["telp"] }}</td>
                             <td>
-                                <a href="{{ route('detailUser', ['id' => $item["id"]]) }}" class="btn btn-link">View</a>
+                                <a href="{{ route('detailUser', ['id' => $item["id"]]) }}" class="btn btn-primary">View</a>
 
                                 {{-- <button class="btn btn-primary" style="text-justify: center">
                                     <input value="{{$item["id"]}}" type="hidden" name="idUser">

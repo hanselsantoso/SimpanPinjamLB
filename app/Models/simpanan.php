@@ -10,7 +10,7 @@ class Simpanan extends Model
     use HasFactory;
 
     protected $primaryKey = 'id';
-protected $table = 'simpanan';
+    protected $table = 'simpanan';
 
     protected $fillable = [
         'id_user',

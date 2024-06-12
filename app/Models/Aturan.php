@@ -14,7 +14,32 @@ class Aturan extends Model
 
     protected $fillable = [
         'minimal_tabungan',
-        'pinjaman',
+        'maximal_tabungan',
+        'id_bunga',
+        'id_pinjaman',
+        'id_iuran',
         'status',
     ];
+
+    public function bunga()
+    {
+        return $this->hasOne(Bunga::class, 'id','id_bunga');
+    }
+
+    public function pinjaman()
+    {
+        return $this->belongsTo(AturanPinjaman::class, 'id_pinjaman');
+    }
+
+    public function iuran()
+    {
+        return $this->belongsTo(Iuran::class, 'id_iuran');
+    }
+
+    public function cicilan()
+    {
+        return $this->hasOne(Cicilan::class, 'id_cicilan');
+    }
+
+
 }

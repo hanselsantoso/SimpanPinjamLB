@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bunga extends Model
+class Iuran extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id';
-    protected $table = 'aturan_bunga';
+    protected $table = 'aturan_iuran';
+    protected $primaryKey = 'id_iuran';
 
     protected $fillable = [
-        'bunga',
-        'status',
+        'iuran',
+        'status_iuran',
     ];
 
     public function aturan()
     {
-        return $this->belongsTo(Aturan::class, 'id_bunga');
+        return $this->hasOne(Aturan::class, 'id_iuran','id_iuran');
     }
 }

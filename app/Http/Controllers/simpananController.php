@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aturan;
+use App\Models\AturanPinjaman;
+use App\Models\Bunga;
+use App\Models\Cicilan;
+use App\Models\Iuran;
 use App\Models\Simpanan;
 use App\Models\User;
 use Carbon\Carbon;
@@ -67,41 +71,7 @@ class simpananController extends Controller
         }
     }
 
-    public function aturan(Request $request){
-        $aturan = Aturan::all();
-        return view('Admin.Aturan.simpanan',with([
-            'aturan' => $aturan
-        ]));
-    }
 
-    public function doCreateAturan(Request $request){
-        $data = Aturan::create([
-            'minimal_tabungan' => $request->minimalSimpanan,
-            'pinjaman' => $request->pinjaman,
-            'status' => 1,
-        ]);
-        if ($data->save()) {
-            return redirect()->back()->with("success, Telah berhasil membuat aturan baru");
-
-        }else{
-            return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
-        }
-    }
-
-    public function doUpdateAturan(Request $request){
-        $data = Aturan::where('id',$request->idUserSimpanan)
-         ->update([
-            'minimal_tabungan' => $request->minimalSimpanan,
-            'pinjaman' => $request->pinjaman,
-         ]);
-
-         if ($data) {
-            return redirect()->back()->with('success', 'Berhasil menyimpan data simpanan!');
-
-        }else{
-            return redirect()->back()->with('error', 'Terjadi kesalahan, coba ulangi lagi');
-        }
-    }
 
 
 }
