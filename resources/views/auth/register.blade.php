@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nama') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nama Lengkap') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -22,6 +22,33 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="tempatLahir" class="col-md-4 col-form-label text-md-end">{{ __('Tempat Lahir') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="tempatLahir" type="text" class="form-control @error('tempatLahir') is-invalid @enderror" name="tempatLahir" value="{{ old('tempatLahir') }}" required autocomplete="tempatLahir" autofocus>
+
+                                @error('tempatLahir')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="tanggalLahir" class="col-md-4 col-form-label text-md-end">{{ __('Tanggal Lahir') }}</label>
+                            <div class="col-md-6">
+                                <input id="tanggalLahir" type="text" class="form-control datepicker @error('tanggalLahir') is-invalid @enderror" name="tanggalLahir" value="{{ old('tanggalLahir') }}" required autocomplete="tanggalLahir" autofocus>
+                                @error('tanggalLahir')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                             </div>
                         </div>
 
@@ -102,4 +129,12 @@
         </div>
     </div>
 </div>
+@endsection
+@section('extra-js')
+
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker();
+        } );
+    </script>
 @endsection

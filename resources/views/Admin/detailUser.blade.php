@@ -1,129 +1,125 @@
 @extends('layouts.app')
 @section('content')
     <div class="main">
-        <div class="container">
-            <div class="container">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-8">
-                            <h5>{{$user["name"]}} - {{$user["total_simpanan"]}}</h5>
-                        </div>
-                        <div class="col-4" style="text-align: right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createSimpanan">
-                                Tambah Simpanan
+        <div class="container row m-auto" >
+            <div class="container col-6">
+            <div class="header">
+                <div class="row">
+                <div class="col-8">
+                    <h2>{{$user["name"]}} - {{format_idr($totalSimpanan)}}</h2>
+                    <h3>Bunga - {{format_idr($totalSimpanan)}}</h3>
+                </div>
+                <div class="col-4" style="text-align: right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createSimpanan">
+                    Tambah Simpanan
+                    </button>
+                </div>
+                </div>
+                <br>
+            </div>
+            <div class="content">
+                <table id="tabelSimpan" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Nominal</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @foreach ($simpanan as $item)
+                    <tr>
+                        <input type="hidden" id="idSimpanan" value="{{$item["id"]}}">
+                        <td>{{$item->getTanggal($item["tanggal"])}}</td>
+                        <td>{{ format_idr($item["nominal"])}}</td>
+                        <td>{{$item->getStatusSimpanan($item["status"])}}</td>
+                        <td>
+                        @if ($item["status"] == 0)
+
+                        @else
+                            <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
+                            <span>Ubah</span>
                             </button>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-                <div class="content">
-                    <table id="tabelSimpan" class="table table-striped table-bordered">
-                        <thead>
-                          <tr>
-                            <th>No.</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($simpanan as $item)
-                                <tr>
-                                    <td>{{$loop->index+1}}</td>
-                                    <input type="hidden" id="idSimpanan" value="{{$item["id"]}}">
-                                    <td>{{$item->getTanggal($item["tanggal"])}}</td>
-                                    <td>{{$item["nominal"]}}</td>
-                                    <td>{{$item->getStatusSimpanan($item["status"])}}</td>
-                                    <td>
-                                        @if ($item["status"] == 0)
-
-                                        @else
-                                            <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
-                                                <span>Ubah</span>
-                                            </button>
-                                            <button class="btn btn-danger" style="text-justify: center">
-                                                <span>Hapus</span>
-                                            </button>
-                                        @endif
+                            <button class="btn btn-danger" style="text-justify: center">
+                            <span>Hapus</span>
+                            </button>
+                        @endif
 
 
-                                    </td>
-                                </tr>
-                            @endforeach
+                        </td>
+                    </tr>
+                    @endforeach
 
 
 
-                        </tbody>
-                      </table>
-                </div>
+                </tbody>
+                  </table>
+            </div>
             </div>
 
-            <div class="container">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-8">
-                            <h5>Batas Peminjaman - {{$user["total_pinjaman"]}}</h5>
-                        </div>
-                        <div class="col-4" style="text-align: right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Tambah Pinjaman
-                            </button>
-                        </div>
-                    </div>
-                    <br>
+            <div class="container col-6">
+            <div class="header">
+                <div class="row">
+                <div class="col-8">
+                    <h5>Batas Peminjaman - {{$user["total_pinjaman"]}}</h5>
                 </div>
-                <div class="content">
-                    <table id="tabelSimpan" class="table table-striped table-bordered">
-                        <thead>
-                          <tr>
-                            <th>No.</th>
-                            <th>Tanggal</th>
-                            <th>Pinjaman</th>
-                            <th>Bunga</th>
-                            <th>Total Bayar</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>23-08-2023</td>
-                                <td>1.000.000</td>
-                                <td>300.000</td>
-                                <td>1.300.000</td>
-                                <td>Pinjaman</td>
-                                <td>
-                                    <button class="btn btn-warning" style="text-justify: center">
-                                        <span>Ubah</span>
-                                    </button>
-                                    <button class="btn btn-danger" style="text-justify: center">
-                                        <span>Hapus</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>23-08-2023</td>
-                                <td>1.000.000</td>
-                                <td>300.000</td>
-                                <td>1.300.000</td>
-                                <td>Angsuran</td>
-                                <td>
-                                    <button class="btn btn-warning" style="text-justify: center">
-                                        <span>Ubah</span>
-                                    </button>
-                                    <button class="btn btn-danger" style="text-justify: center">
-                                        <span>Hapus</span>
-                                    </button>
-                                </td>
-                            </tr>
+                <div class="col-4" style="text-align: right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    Tambah Pinjaman
+                    </button>
+                </div>
+                </div>
+                <br>
+            </div>
+            <div class="content">
+                <table id="tabelPinjaman" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Pinjaman</th>
+                    <th>Bunga</th>
+                    <th>Total Bayar</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td>23-08-2023</td>
+                    <td>1.000.000</td>
+                    <td>300.000</td>
+                    <td>1.300.000</td>
+                    <td>Pinjaman</td>
+                    <td>
+                        <button class="btn btn-warning" style="text-justify: center">
+                        <span>Ubah</span>
+                        </button>
+                        <button class="btn btn-danger" style="text-justify: center">
+                        <span>Hapus</span>
+                        </button>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>23-08-2023</td>
+                    <td>1.000.000</td>
+                    <td>300.000</td>
+                    <td>1.300.000</td>
+                    <td>Angsuran</td>
+                    <td>
+                        <button class="btn btn-warning" style="text-justify: center">
+                        <span>Ubah</span>
+                        </button>
+                        <button class="btn btn-danger" style="text-justify: center">
+                        <span>Hapus</span>
+                        </button>
+                    </td>
+                    </tr>
 
 
-                        </tbody>
-                      </table>
-                </div>
+                </tbody>
+                  </table>
+            </div>
             </div>
         </div>
 
@@ -218,6 +214,11 @@
             autoclose: true
         });
         var table = $('#tabelSimpan').DataTable({
+            "paging": true,
+            "pageLength": 10,
+        });
+
+        var table = $('#tabelPinjaman').DataTable({
             "paging": true,
             "pageLength": 10,
         });

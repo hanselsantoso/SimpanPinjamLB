@@ -1,40 +1,13 @@
 <?php
+namespace App\Services;
 
-namespace App\Http\Controllers;
-
+use App\Models\Simpanan;
 use App\Models\Aturan;
-use App\Models\simpanan;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdminController extends Controller
+class InterestService
 {
-    //
-    public function index(Request $request) {
-        $user = User::where('status',1)->where('role',1)->get();
-        return view('Admin.dashboard',with([
-            'user' => $user
-    ]));
-    }
-
-    public function detailUser(Request $request, $id){
-        $user = User::find($id);
-        $simpanan = simpanan::
-        where('id_user',$request->id)
-        ->where('status',1)
-        ->orWhere('status',0)
-        ->get();
-        $totalSimpanan = $simpanan->sum('nominal');
-        return view('Admin.detailUser',with([
-            'user'=>$user,
-            'simpanan'=>$simpanan,
-            'totalSimpanan'=>$totalSimpanan,
-        ]));
-    }
-
-
     public function calculateMonthlyInterest()
     {
         // Ambil total simpanan untuk setiap pengguna yang statusnya aktif

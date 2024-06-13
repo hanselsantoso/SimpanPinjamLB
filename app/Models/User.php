@@ -57,5 +57,8 @@ class User extends Authenticatable
         return $this->role === 2;
     }
 
-
+    public function simpanan()
+    {
+        return $this->hasMany(Simpanan::class, 'id_user');
+    }
 }

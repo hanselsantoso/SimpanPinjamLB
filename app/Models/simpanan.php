@@ -23,6 +23,7 @@ class Simpanan extends Model
     protected $status = array(
         '0' => 'Simpanan Pokok',
         '1' => 'Simpanan Bulanan',
+        '2' => 'Bunga Bulanan',
     );
 
     public function getStatusSimpanan($value)
@@ -31,7 +32,12 @@ class Simpanan extends Model
     }
 
     public function getTanggal($value)
-{
-    return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
-}
+    {
+        return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

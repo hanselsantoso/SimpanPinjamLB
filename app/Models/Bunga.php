@@ -19,6 +19,6 @@ class Bunga extends Model
 
     public function aturan()
     {
-        return $this->belongsTo(Aturan::class, 'id_bunga');
+        return $this->hasOne(Aturan::class, 'id','id_bunga');
     }
 }

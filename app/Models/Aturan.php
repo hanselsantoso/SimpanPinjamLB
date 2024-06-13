@@ -23,7 +23,7 @@ class Aturan extends Model
 
     public function bunga()
     {
-        return $this->hasOne(Bunga::class, 'id','id_bunga');
+        return $this->belongsTo(Bunga::class, 'id_bunga','id');
     }
 
     public function pinjaman()

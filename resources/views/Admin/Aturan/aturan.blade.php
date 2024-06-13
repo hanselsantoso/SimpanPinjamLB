@@ -23,8 +23,8 @@
                             <th>No.</th>
                             <th>Minimal Tabungan</th>
                             <th>Maximal Tabungan</th>
-                            <th>Bunga</th>
-                            <th>Pinjaman</th>
+                            <th>Bunga (%)</th>
+                            <th>Pinjaman (%)</th>
                             <th>Iuran Wajib</th>
                             <th>Status</th>
                             <th>Action</th>
