@@ -19,6 +19,6 @@ class Cicilan extends Model
 
     public function aturan()
     {
-        return $this->belongsTo(Aturan::class, 'id_cicilan');
+        return $this->hasOne(Aturan::class, 'id_cicilan');
     }
 }

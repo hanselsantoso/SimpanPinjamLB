@@ -17,6 +17,7 @@ class Aturan extends Model
         'maximal_tabungan',
         'id_bunga',
         'id_pinjaman',
+        'id_cicilan',
         'id_iuran',
         'status',
     ];
@@ -38,7 +39,7 @@ class Aturan extends Model
 
     public function cicilan()
     {
-        return $this->hasOne(Cicilan::class, 'id_cicilan');
+        return $this->belongsTo(Cicilan::class, 'id_cicilan');
     }
 
 

@@ -39,11 +39,21 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/aturan">{{ __('Simpanan') }}</a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ __('Admin') }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/admin/aturan">{{ __('Aturan') }}</a>
+                                <a class="dropdown-item" href="/admin/bunga">{{ __('Bunga') }}</a>
+                                <a class="dropdown-item" href="/admin/cicilan">{{ __('Cicilan') }}</a>
+                                <a class="dropdown-item" href="/admin/pinjaman">{{ __('Aturan Pinjaman') }}</a>
+                                <a class="dropdown-item" href="/admin/iuran">{{ __('IuranWajib') }}</a>
+                            </div>
+                        </li>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/bunga">{{ __('Bunga') }}</a>
+                            <a class="nav-link" href="/admin/index">{{ __('Nasabah') }}</a>
                         </li>
                     </ul>
 

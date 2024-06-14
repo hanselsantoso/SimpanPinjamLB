@@ -59,6 +59,6 @@ class User extends Authenticatable
 
     public function simpanan()
     {
-        return $this->hasMany(Simpanan::class, 'id_user');
+        return $this->hasOne(Simpanan_H::class, 'id_user');
     }
 }

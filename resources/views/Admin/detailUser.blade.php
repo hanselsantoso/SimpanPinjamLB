@@ -6,8 +6,8 @@
             <div class="header">
                 <div class="row">
                 <div class="col-8">
-                    <h2>{{$user["name"]}} - {{format_idr($totalSimpanan)}}</h2>
-                    <h3>Bunga - {{format_idr($totalSimpanan)}}</h3>
+                    <h2>{{$user["name"]}} - {{format_idr($user->simpanan["total_simpanan"] ?? 0)}}</h2>
+                    {{-- <h3>Bunga - {{format_idr($totalSimpanan)}}</h3> --}}
                 </div>
                 <div class="col-4" style="text-align: right">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createSimpanan">
@@ -28,28 +28,33 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach ($simpanan as $item)
-                    <tr>
-                        <input type="hidden" id="idSimpanan" value="{{$item["id"]}}">
-                        <td>{{$item->getTanggal($item["tanggal"])}}</td>
-                        <td>{{ format_idr($item["nominal"])}}</td>
-                        <td>{{$item->getStatusSimpanan($item["status"])}}</td>
-                        <td>
-                        @if ($item["status"] == 0)
 
-                        @else
-                            <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
-                            <span>Ubah</span>
-                            </button>
-                            <button class="btn btn-danger" style="text-justify: center">
-                            <span>Hapus</span>
-                            </button>
-                        @endif
-
-
-                        </td>
-                    </tr>
+                    {{-- {{dd($user->simpanan->simpanans)}} --}}
+                    @foreach ($user->simpanan->simpanans as $item)
+                        <tr>
+                            <input type="hidden" id="idSimpanan" value="{{$item["id"]}}">
+                            <input type="hidden" id="tanggalSimpanan" value="{{$item->getTanggal($item["tanggal"])}}">
+                            <input type="hidden" id="nominalSimpanan" value="{{$item["nominal"]}}">
+                            <input type="hidden" id="statusSimpanan" value="{{$item["status"]}}">
+                            <td>{{$item->getTanggal($item["tanggal"])}}</td>
+                            <td>{{ format_idr($item["nominal"])}}</td>
+                            <td>{{$item->getStatusSimpanan($item["status"])}}</td>
+                            <td>
+                                <button data-toggle="modal" data-target="#updateSimpanan" class="buttonEdit btn btn-warning" style="text-justify: center">
+                                <span>Ubah</span>
+                                </button>
+                                <form action="/admin/deleteSimpanan" method="post">
+                                    @csrf
+                                    <input type="hidden" name="idSimpanan" value="{{$item["id"]}}">
+                                    <button class="btn btn-danger" style="text-justify: center">
+                                    <span>Hapus</span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     @endforeach
+
+
 
 
 
@@ -62,7 +67,7 @@
             <div class="header">
                 <div class="row">
                 <div class="col-8">
-                    <h5>Batas Peminjaman - {{$user["total_pinjaman"]}}</h5>
+                    {{-- <h5>Batas Peminjaman - {{$user["total_pinjaman"]}}</h5> --}}
                 </div>
                 <div class="col-4" style="text-align: right">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -146,6 +151,16 @@
                                 <label for="name">Nominal:</label>
                                 <input type="number" class="form-control" name="nominal" id="nominalSimpanan">
                             </div>
+                            <div class="form-group">
+                                <label for="type">Type:</label>
+                                <select class="form-control" name="status" id="statusSimpanan">
+                                    <option value="0">Simpanan Pokok</option>
+                                    <option value="1">Simpanan Bulanan</option>
+                                    <option value="2">Bunga Simpanan</option>
+                                </select>
+                            </div>
+
+
                     </div>
 
                     <!-- Modal footer -->
@@ -177,6 +192,14 @@
                             <div class="form-group">
                                 <label for="name">Nominal:</label>
                                 <input type="number" class="form-control" name="nominal" id="nominalSimpananUpdate">
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Type:</label>
+                                <select class="form-control" name="status" id="statusSimpananUpdate">
+                                    <option value="0">Simpanan Pokok</option>
+                                    <option value="1">Simpanan Bulanan</option>
+                                    <option value="2">Bunga Simpanan</option>
+                                </select>
                             </div>
                     </div>
 
@@ -224,13 +247,21 @@
         });
         $('.buttonEdit').on('click', function() {
             var row = $(this).closest('tr');
-            let tgl = row.find('td:eq(1)').text();
-            let nominal = row.find('td:eq(2)').text();
-            let id = row.find('input[type="hidden"]').val();
+            var data = row.find('input[type="hidden"]').map(function() {
+            return $(this).val();
+            }).get();
+            console.log(data);
+
+            let id = data[0];
+            let tgl = data[1];
+            let nominal = data[2];
+            let status = data[3];
+            $('#idSimpananUpdate').val(id)
             $("#tglSimpananUpdate").datepicker("setDate", tgl);
             // console.log(id)
             $('#nominalSimpananUpdate').val(nominal)
-            $('#idSimpananUpdate').val(id)
+
+            $('#statusSimpananUpdate').val(status).change();
         });
     });
 

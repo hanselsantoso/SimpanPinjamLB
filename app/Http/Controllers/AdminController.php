@@ -21,16 +21,8 @@ class AdminController extends Controller
 
     public function detailUser(Request $request, $id){
         $user = User::find($id);
-        $simpanan = simpanan::
-        where('id_user',$request->id)
-        ->where('status',1)
-        ->orWhere('status',0)
-        ->get();
-        $totalSimpanan = $simpanan->sum('nominal');
         return view('Admin.detailUser',with([
-            'user'=>$user,
-            'simpanan'=>$simpanan,
-            'totalSimpanan'=>$totalSimpanan,
+            'user'=> $user,
         ]));
     }
 

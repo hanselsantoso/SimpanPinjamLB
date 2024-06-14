@@ -13,7 +13,7 @@ class Simpanan extends Model
     protected $table = 'simpanan';
 
     protected $fillable = [
-        'id_user',
+        'id_simpanan_h',
         'id_admin',
         'tanggal',
         'nominal',
@@ -39,5 +39,10 @@ class Simpanan extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function simpananH()
+    {
+        return $this->belongsTo(Simpanan_H::class, 'id_simpanan_h','id_simpanan_h');
     }
 }

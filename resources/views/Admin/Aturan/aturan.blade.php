@@ -24,6 +24,7 @@
                             <th>Minimal Tabungan</th>
                             <th>Maximal Tabungan</th>
                             <th>Bunga (%)</th>
+                            <th>Cicilan (kali))</th>
                             <th>Pinjaman (%)</th>
                             <th>Iuran Wajib</th>
                             <th>Status</th>
@@ -40,9 +41,11 @@
                                     <input type="hidden" value="{{$item["id_bunga"]}}">
                                     <input type="hidden" value="{{$item["id_pinjaman"]}}">
                                     <input type="hidden" value="{{$item["id_iuran"]}}">
+                                    <input type="hidden" value="{{$item["id_cicilan"]}}">
                                     <td>{{format_idr($item["minimal_tabungan"])}}</td>
                                     <td>{{format_idr($item["maximal_tabungan"])}}</td>
                                     <td>{{$item->bunga["bunga"]}}</td>
+                                    <td>{{$item->cicilan["cicilan"]}}</td>
                                     <td>{{$item->pinjaman["pinjaman"]}}</td>
                                     <td>{{ format_idr( $item->iuran["iuran"])}}</td>
                                     <td>
@@ -135,12 +138,11 @@
                         <div class="form-group row">
                             <div class="col-6">
                                 <label for="name">Lama cicilan:</label>
-                                @foreach ($cicilan as $item)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="cicilan[]" value="{{$item["id_cicilan"]}}">
-                                        <label class="form-check-label" for="cicilan{{$item["id_cicilan"]}}">{{$item["cicilan"]}} Kali</label>
-                                    </div>
-                                @endforeach
+                                <select class="form-control" name="cicilan" id="cicilan">
+                                    @foreach ($cicilan as $item)
+                                        <option value="{{$item["id_cicilan"]}}">{{$item["cicilan"]}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-6">
                                 <label for="name">Besar Iuran Bulanan:</label>
@@ -175,18 +177,57 @@
                     <input type="hidden" id="idUserSimpanan" name="idUserSimpanan" value="
                     ">
                     <div class="modal-body">
-                            <div class="form-group">
+                        <div class="form-group row">
+                            <div class="col-6">
                                 <label for="name">Minimal Simpanan:</label>
                                 <input type="number" class="form-control" name="minimalSimpanan" id="minimalSimpananUpdate">
                             </div>
-                            <div class="form-group">
-                                <label for="name">Pinjaman:</label>
-                                <input type="number" class="form-control" name="pinjaman" id="pinjamanUpdate">
+
+                            <div class="col-6">
+                                <label for="name">Maximal Simpanan:</label>
+                                <input type="number" class="form-control" name="maximalSimpanan" id="maximalSimpananUpdate">
                             </div>
-                            <div class="form-group">
-                                <label for="name">Iuran Wajib:</label>
-                                <input type="number" class="form-control" name="iuranWajib" id="iuranWajibUpdate">
+
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label for="name">Besar Bunga (%):</label>
+                                <select class="form-control" id="bungaUpdate" name="bunga">
+                                    @foreach ($bunga as $item)
+                                        <option value="{{$item["id"]}}">{{$item["bunga"]}}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                            <div class="col-6">
+                                <label for="name">Besar Pinjaman (%):</label>
+                                <select class="form-control" id="pinjamanUpdate" name="pinjaman">
+                                    @foreach ($pinjaman as $item)
+                                        <option value="{{$item["id_pinjaman"]}}">{{$item["pinjaman"]}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label for="name">Lama cicilan:</label>
+                                <select class="form-control" id="cicilanUpdate" name="cicilan">
+                                    @foreach ($cicilan as $item)
+                                        <option value="{{$item["id_cicilan"]}}">{{$item["cicilan"]}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="name">Besar Iuran Bulanan:</label>
+                                <select class="form-control" id="iuranUpdate" name="iuran">
+                                    @foreach ($iuran as $item)
+                                        <option value="{{$item["id_iuran"]}}">{{$item["iuran"]}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Modal footer -->
@@ -217,15 +258,21 @@
                 var value = $(this).val();
                 data.push(value);
             });
-            var row = $(this).closest('tr');
+            console.log(data);
             let id = data[0];
             let minimalTabungan = data[1];
-            let pinjaman = data[2];
+            let maximalTabungan = data[2];
+            let bunga = data[3];
+            let pinjaman = data[4];
             let iuran = data[3];
+            let cicilan = data[4];
+            $('#idUserSimpanan').val(id).change();
             $("#minimalSimpananUpdate").val(minimalTabungan);
-            $('#pinjamanUpdate').val(pinjaman)
-            $('#iuranUpdate').val(iuran)
-            $('#idUserSimpanan').val(id)
+            $("#maximalSimpananUpdate").val(maximalTabungan);
+            $('#bungaUpdate').val(bunga).change();
+            $('#pinjamanUpdate').val(pinjaman).change();
+            $('#iuranUpdate').val(iuran).change();
+            $('#cicilanUpdate').val(cicilan).change();
         });
     });
 

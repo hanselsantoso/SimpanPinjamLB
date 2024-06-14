@@ -2,7 +2,14 @@
 @section('content')
     <div class="main">
         <div class="container">
-
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>User List</h2>
+                </div>
+                <div class="col-md-6">
+                    <a href="" class="btn btn-primary">Hitung Bunga Seluruh Nasabah</a>
+                </div>
+            </div>
             <table id="tabelUser" class="table table-striped table-bordered">
                 <thead>
                   <tr>
@@ -10,17 +17,20 @@
                     <th>Nama</th>
                     <th>Email</th>
                     <th>No. Telp</th>
+                    <th>Total Simpanan</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
                     @foreach ($user as $item)
+                        {{-- {{dd($item->simpanan);}} --}}
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td> {{$item["name"] }}</td>
                             <td> {{$item["email"] }}</td>
                             <td> {{$item["telp"] }}</td>
+                            <td> {{ format_idr($item->simpanan["total_simpanan"] ?? 0) }}</td>
                             <td>
                                 <a href="{{ route('detailUser', ['id' => $item["id"]]) }}" class="btn btn-primary">View</a>
 

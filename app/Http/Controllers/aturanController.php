@@ -59,8 +59,10 @@ class aturanController extends Controller
         $data = Aturan::where('id',$request->idUserSimpanan)
          ->update([
             'minimal_tabungan' => $request->minimalSimpanan,
-            'pinjaman' => $request->pinjaman,
-            'iuran_wajib' => $request->iuranWajib,
+            'maximal_tabungan' => $request->maximalSimpanan,
+            'id_bunga' => $request->bunga,
+            'id_pinjaman' => $request->pinjaman,
+            'id_iuran' => $request->iuran,
          ]);
 
 

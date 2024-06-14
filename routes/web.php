@@ -39,6 +39,7 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
 
     Route::post('/createSimpanan', [simpananController::class, 'doCreate'])->name('createSimpanan');
     Route::post('/updateSimpanan', [simpananController::class, 'doUpdate'])->name('updateSimpanan');
+    Route::post('/deleteSimpanan', [simpananController::class, 'doDelete'])->name('deleteSimpanan');
 
     Route::get('/aturan', [aturanController::class, 'aturan'])->name('aturan');
     Route::post('/createAturan', [aturanController::class, 'doCreateAturan'])->name('createAturan');
