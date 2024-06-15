@@ -21,8 +21,11 @@ class AdminController extends Controller
 
     public function detailUser(Request $request, $id){
         $user = User::find($id);
+        $info = $user->getInfo();
+        // dd($info);
         return view('Admin.detailUser',with([
             'user'=> $user,
+            'info'=> $info,
         ]));
     }
 

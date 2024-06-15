@@ -16,6 +16,7 @@ class Aturan extends Model
         'minimal_tabungan',
         'maximal_tabungan',
         'id_bunga',
+        'id_bunga_pinjaman',
         'id_pinjaman',
         'id_cicilan',
         'id_iuran',
@@ -25,6 +26,11 @@ class Aturan extends Model
     public function bunga()
     {
         return $this->belongsTo(Bunga::class, 'id_bunga','id');
+    }
+
+    public function bungaPinjaman()
+    {
+        return $this->belongsTo(BungaPinjaman::class, 'id_bunga_pinjaman','id');
     }
 
     public function pinjaman()

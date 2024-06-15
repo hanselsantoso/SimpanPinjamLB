@@ -61,4 +61,42 @@ class User extends Authenticatable
     {
         return $this->hasOne(Simpanan_H::class, 'id_user');
     }
+
+    public function pinjaman()
+    {
+        return $this->hasOne(Pinjaman_H::class, 'id_user');
+    }
+
+    public function getInfo()
+    {
+        $totalSimpanan = $this->simpanan->total_simpanan;
+
+        // Cari aturan yang sesuai dengan total simpanan pengguna
+        $aturan = Aturan::where('minimal_tabungan', '<=', $totalSimpanan)
+                        ->where('maximal_tabungan', '>=', $totalSimpanan)
+                        ->where('status', 1)
+                        ->first();
+
+        if (!$aturan || !$aturan->bunga) {
+
+            return null;
+        }
+
+        $interestRate = $aturan->bunga->bunga;
+        $jumlahBunga = $totalSimpanan * ($interestRate / 100);
+
+        $aturanPinjam = $aturan->pinjaman->pinjaman;
+        $jumlahPinjaman = $totalSimpanan * ($aturanPinjam / 100);
+
+
+        $bungaPinjaman = $aturan->bungaPinjaman->bunga_pinjaman;
+        return [
+            'totalSimpanan' => $totalSimpanan,
+            'interestRate' => $interestRate,
+            'jumlahBunga' => $jumlahBunga,
+            'aturanPinjam' => $aturanPinjam,
+            'bungaPinjaman' => $bungaPinjaman,
+            'jumlahPinjaman' => $jumlahPinjaman,
+        ];
+    }
 }

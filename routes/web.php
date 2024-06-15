@@ -4,8 +4,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\aturanController;
 use App\Http\Controllers\aturanPinjamanController;
 use App\Http\Controllers\BungaController;
+use App\Http\Controllers\bungaPinjamanController;
 use App\Http\Controllers\cicilanController;
 use App\Http\Controllers\iuranController;
+use App\Http\Controllers\pinjamanController;
 use App\Http\Controllers\simpananController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -44,12 +46,20 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/aturan', [aturanController::class, 'aturan'])->name('aturan');
     Route::post('/createAturan', [aturanController::class, 'doCreateAturan'])->name('createAturan');
     Route::post('/updateAturan', [aturanController::class, 'doUpdateAturan'])->name('updateAturan');
+    Route::post('/deleteAturan', [aturanController::class, 'doDeleteAturan'])->name('deletAturan');
+    Route::post('/aktifAturan', [aturanController::class, 'doActivateAturan'])->name('AktifAturan');
 
     Route::get('/bunga', [BungaController::class, 'index'])->name('bunga');
     Route::post('/createBunga', [BungaController::class, 'doCreateBunga'])->name('createBunga');
     Route::post('/updateBunga', [BungaController::class, 'doUpdateBunga'])->name('updateBunga');
     Route::post('/deleteBunga', [BungaController::class, 'doDeleteBunga'])->name('deleteBunga');
     Route::post('/aktifBunga', [BungaController::class, 'doAktifBunga'])->name('aktifBunga');
+
+    Route::get('/bungaPinjaman', [bungaPinjamanController::class, 'index'])->name('bungaPinjaman');
+    Route::post('/createBungaPinjaman', [bungaPinjamanController::class, 'doCreateBunga'])->name('createBungaPinjaman');
+    Route::post('/updateBungaPinjaman', [bungaPinjamanController::class, 'doUpdateBunga'])->name('updateBungaPinjaman');
+    Route::post('/deleteBungaPinjaman', [bungaPinjamanController::class, 'doDeleteBunga'])->name('deleteBungaPinjaman');
+    Route::post('/aktifBungaPinjaman', [bungaPinjamanController::class, 'doAktifBunga'])->name('aktifBungaPinjaman');
 
     Route::get('/cicilan', [cicilanController::class, 'index'])->name('cicilan');
     Route::post('/createCicilan', [cicilanController::class, 'doCreateCicilan'])->name('createCicilan');
@@ -63,18 +73,17 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/deleteIuran', [iuranController::class, 'doDeleteIuran'])->name('deleteIuran');
     Route::post('/aktifIuran', [iuranController::class, 'doAktifIuran'])->name('aktifIuran');
 
-    Route::get('/pinjaman', [aturanPinjamanController::class, 'index'])->name('pinjaman');
-    Route::post('/createPinjaman', [aturanPinjamanController::class, 'doCreatePinjaman'])->name('createPinjaman');
-    Route::post('/updatePinjaman', [aturanPinjamanController::class, 'doUpdatePinjaman'])->name('updatePinjaman');
-    Route::post('/deletePinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deletePinjaman');
-    Route::post('/aktifPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifPinjaman');
+    Route::get('/aturanPinjaman', [aturanPinjamanController::class, 'index'])->name('aturanPinjaman');
+    Route::post('/createPinjaman', [aturanPinjamanController::class, 'doCreatePinjaman'])->name('createAturanPinjaman');
+    Route::post('/updatePinjaman', [aturanPinjamanController::class, 'doUpdatePinjaman'])->name('updateAturanPinjaman');
+    Route::post('/deletePinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deleteAturanPinjaman');
+    Route::post('/aktifPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifAturanPinjaman');
 
-    // Route::prefix('cicilan')->group(function(){
-    //     Route::get('/', [cicilanController::class, 'index'])->name('cicilan');
-    //     Route::post('/create', [cicilanController::class, 'create'])->name('cicilan.create');
-    //     Route::post('/update/{id}', [BungaController::class, 'update'])->name('bunga.update');
-    //     Route::post('/delete/{id}', [BungaController::class, 'delete'])->name('bunga.delete');
-    // });
+    Route::get('/pinjaman', [pinjamanController::class, 'index'])->name('pinjaman');
+    Route::post('/createPinjaman', [pinjamanController::class, 'doCreatePinjaman'])->name('createPinjaman');
+    Route::post('/updatePinjaman', [pinjamanController::class, 'doUpdatePinjaman'])->name('updatePinjaman');
+    Route::post('/deletePinjaman', [pinjamanController::class, 'doDeletePinjaman'])->name('deletePinjaman');
+    Route::post('/aktifPinjaman', [pinjamanController::class, 'doAktifPinjaman'])->name('aktifPinjaman');
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){

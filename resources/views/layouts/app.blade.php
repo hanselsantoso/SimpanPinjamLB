@@ -45,9 +45,10 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/admin/aturan">{{ __('Aturan') }}</a>
-                                <a class="dropdown-item" href="/admin/bunga">{{ __('Bunga') }}</a>
+                                <a class="dropdown-item" href="/admin/bunga">{{ __('Bunga Simpanan') }}</a>
+                                <a class="dropdown-item" href="/admin/bungaPinjaman">{{ __('Bunga Pinjaman') }}</a>
                                 <a class="dropdown-item" href="/admin/cicilan">{{ __('Cicilan') }}</a>
-                                <a class="dropdown-item" href="/admin/pinjaman">{{ __('Aturan Pinjaman') }}</a>
+                                <a class="dropdown-item" href="/admin/aturanPinjaman">{{ __('Aturan Pinjaman') }}</a>
                                 <a class="dropdown-item" href="/admin/iuran">{{ __('IuranWajib') }}</a>
                             </div>
                         </li>

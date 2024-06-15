@@ -24,7 +24,6 @@
                 <tbody>
 
                     @foreach ($user as $item)
-                        {{-- {{dd($item->simpanan);}} --}}
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td> {{$item["name"] }}</td>

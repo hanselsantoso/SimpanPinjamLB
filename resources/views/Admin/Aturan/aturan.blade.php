@@ -23,8 +23,9 @@
                             <th>No.</th>
                             <th>Minimal Tabungan</th>
                             <th>Maximal Tabungan</th>
-                            <th>Bunga (%)</th>
-                            <th>Cicilan (kali))</th>
+                            <th>Bunga Simpanan(%)</th>
+                            <th>Bunga Pinjaman(%)</th>
+                            <th>Cicilan (kali)</th>
                             <th>Pinjaman (%)</th>
                             <th>Iuran Wajib</th>
                             <th>Status</th>
@@ -42,9 +43,11 @@
                                     <input type="hidden" value="{{$item["id_pinjaman"]}}">
                                     <input type="hidden" value="{{$item["id_iuran"]}}">
                                     <input type="hidden" value="{{$item["id_cicilan"]}}">
+                                    <input type="hidden" value="{{$item["id_bunga_pinjaman"]}}">
                                     <td>{{format_idr($item["minimal_tabungan"])}}</td>
                                     <td>{{format_idr($item["maximal_tabungan"])}}</td>
                                     <td>{{$item->bunga["bunga"]}}</td>
+                                    <td>{{$item->bungaPinjaman["bunga_pinjaman"]}}</td>
                                     <td>{{$item->cicilan["cicilan"]}}</td>
                                     <td>{{$item->pinjaman["pinjaman"]}}</td>
                                     <td>{{ format_idr( $item->iuran["iuran"])}}</td>
@@ -61,7 +64,7 @@
                                                 <span>Ubah</span>
                                             </button>
                                             @if ($item["status"] == 0)
-                                                <form action="/admin/aktifSimpanan" method="post">
+                                                <form action="/admin/aktifAturan" method="post">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item["id"]}}">
                                                     <button class="btn btn-success" style="text-justify: center">
@@ -69,7 +72,7 @@
                                                     </button>
                                                 </form>
                                             @else
-                                                <form action="/admin/deleteSimpanan" method="post">
+                                                <form action="/admin/deleteAturan" method="post">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item["id"]}}">
                                                     <button class="btn btn-danger" style="text-justify: center">
@@ -118,13 +121,26 @@
 
                         <div class="form-group row">
                             <div class="col-6">
-                                <label for="name">Besar Bunga (%):</label>
+                                <label for="name">Besar Bunga Simpanan(%):</label>
                                 <select class="form-control" name="bunga" id="bunga">
                                     @foreach ($bunga as $item)
                                         <option value="{{$item["id"]}}">{{$item["bunga"]}}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="col-6">
+                                <label for="name">Besar Bunga Pinjaman(%):</label>
+                                <select class="form-control" name="bungaPinjaman" id="bungaPinjaman">
+                                    @foreach ($bungaPinjaman as $item)
+                                        <option value="{{$item["id"]}}">{{$item["bunga_pinjaman"]}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
                             <div class="col-6">
                                 <label for="name">Besar Pinjaman (%):</label>
                                 <select class="form-control" name="pinjaman" id="pinjaman">
@@ -133,9 +149,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
                             <div class="col-6">
                                 <label for="name">Lama cicilan:</label>
                                 <select class="form-control" name="cicilan" id="cicilan">
@@ -144,14 +157,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-6">
-                                <label for="name">Besar Iuran Bulanan:</label>
-                                <select class="form-control" name="iuran" id="iuran">
-                                    @foreach ($iuran as $item)
-                                        <option value="{{$item["id_iuran"]}}">{{$item["iuran"]}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="name">Besar Iuran Bulanan:</label>
+                            <select class="form-control" name="iuran" id="iuran">
+                                @foreach ($iuran as $item)
+                                    <option value="{{$item["id_iuran"]}}">{{$item["iuran"]}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -193,13 +206,24 @@
 
                         <div class="form-group row">
                             <div class="col-6">
-                                <label for="name">Besar Bunga (%):</label>
+                                <label for="name">Besar Bunga Simpanan(%):</label>
                                 <select class="form-control" id="bungaUpdate" name="bunga">
                                     @foreach ($bunga as $item)
                                         <option value="{{$item["id"]}}">{{$item["bunga"]}}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-6">
+                                <label for="name">Besar Bunga Pinjaman(%):</label>
+                                <select class="form-control" name="bungaPinjaman" id="bungaPinjamanUpdate">
+                                    @foreach ($bungaPinjaman as $item)
+                                        <option value="{{$item["id"]}}">{{$item["bunga_pinjaman"]}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <div class="col-6">
                                 <label for="name">Besar Pinjaman (%):</label>
                                 <select class="form-control" id="pinjamanUpdate" name="pinjaman">
@@ -208,9 +232,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
                             <div class="col-6">
                                 <label for="name">Lama cicilan:</label>
                                 <select class="form-control" id="cicilanUpdate" name="cicilan">
@@ -219,14 +240,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-6">
-                                <label for="name">Besar Iuran Bulanan:</label>
-                                <select class="form-control" id="iuranUpdate" name="iuran">
-                                    @foreach ($iuran as $item)
-                                        <option value="{{$item["id_iuran"]}}">{{$item["iuran"]}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="name">Besar Iuran Bulanan:</label>
+                            <select class="form-control" id="iuranUpdate" name="iuran">
+                                @foreach ($iuran as $item)
+                                    <option value="{{$item["id_iuran"]}}">{{$item["iuran"]}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -266,6 +287,7 @@
             let pinjaman = data[4];
             let iuran = data[3];
             let cicilan = data[4];
+            let bungaPinjaman = data[5];
             $('#idUserSimpanan').val(id).change();
             $("#minimalSimpananUpdate").val(minimalTabungan);
             $("#maximalSimpananUpdate").val(maximalTabungan);
@@ -273,6 +295,7 @@
             $('#pinjamanUpdate').val(pinjaman).change();
             $('#iuranUpdate').val(iuran).change();
             $('#cicilanUpdate').val(cicilan).change();
+            $('#bungaPinjamanUpdate').val(bungaPinjaman).change();
         });
     });
 

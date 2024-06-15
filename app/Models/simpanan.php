@@ -24,6 +24,7 @@ class Simpanan extends Model
         '0' => 'Simpanan Pokok',
         '1' => 'Simpanan Bulanan',
         '2' => 'Bunga Bulanan',
+        // '3' => 'Iuran Wajib Bulanan',
     );
 
     public function getStatusSimpanan($value)
