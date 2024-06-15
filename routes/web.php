@@ -84,6 +84,9 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/updatePinjaman', [pinjamanController::class, 'doUpdatePinjaman'])->name('updatePinjaman');
     Route::post('/deletePinjaman', [pinjamanController::class, 'doDeletePinjaman'])->name('deletePinjaman');
     Route::post('/aktifPinjaman', [pinjamanController::class, 'doAktifPinjaman'])->name('aktifPinjaman');
+    
+    Route::post('/bayarPinjaman', [pinjamanController::class, 'bayarPinjaman'])->name('bayarPinjaman');
+    
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){

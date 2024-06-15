@@ -64,7 +64,19 @@ class User extends Authenticatable
 
     public function pinjaman()
     {
-        return $this->hasOne(Pinjaman_H::class, 'id_user');
+        return $this->hasMany(Pinjaman_H::class, 'id_user');
+    }
+
+    public function countTotalPinjaman()
+    {
+        return $this->pinjaman->where('status_pinjaman_h', 1)->sum('total_pinjaman');
+    }
+
+    public function countAllPinjamanTerbayar()
+    {
+        return $this->pinjaman->where('status_pinjaman_h', 1)->sum(function ($pinjaman_h) {
+            return $pinjaman_h->pinjamans->sum('pinjaman') ? $pinjaman_h->pinjamans->sum('pinjaman') : 0;
+        });
     }
 
     public function getInfo()
@@ -90,6 +102,8 @@ class User extends Authenticatable
 
 
         $bungaPinjaman = $aturan->bungaPinjaman->bunga_pinjaman;
+
+        $totalCicilan = $aturan->cicilan->cicilan;
         return [
             'totalSimpanan' => $totalSimpanan,
             'interestRate' => $interestRate,
@@ -97,6 +111,7 @@ class User extends Authenticatable
             'aturanPinjam' => $aturanPinjam,
             'bungaPinjaman' => $bungaPinjaman,
             'jumlahPinjaman' => $jumlahPinjaman,
+            'totalCicilan' => $totalCicilan,
         ];
     }
 }

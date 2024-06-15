@@ -14,7 +14,9 @@ class Pinjaman_H extends Model
 
     protected $fillable = [
         'total_pinjaman',
+        'total_cicilan',
         'tanggal_pinjaman',
+        'jatuh_tempo',
         'id_user',
         'status_pinjaman_h'
     ];
@@ -28,4 +30,16 @@ class Pinjaman_H extends Model
     {
         return $this->hasMany(Pinjaman_D::class, 'id_pinjaman_h','id_pinjaman_h');
     }
+
+    public function getTanggal($value)
+    {
+        return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
+    }
+
+    public function getTotalPinjamanD()
+    {
+        return $this->pinjamans()->sum('pinjaman');
+    }
+
+    
 }
