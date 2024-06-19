@@ -7,7 +7,10 @@
                     <h2>User List</h2>
                 </div>
                 <div class="col-md-6">
-                    <a href="" class="btn btn-primary">Hitung Bunga Seluruh Nasabah</a>
+                    <form action="/admin/hitungDanSimpanBunga" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Hitung Bunga Seluruh Nasabah</button>
+                    </form>
                 </div>
             </div>
             <table id="tabelUser" class="table table-striped table-bordered">

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Aturan;
 use App\Models\simpanan;
+use App\Models\Simpanan_H;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -59,5 +61,36 @@ class AdminController extends Controller
                 ]);
             }
         }
+    }
+
+    public function hitungDanSimpanBunga()
+    {
+        // Ambil semua user yang memiliki simpanan
+        $users = User::has('simpanan')->get();
+
+        foreach ($users as $user) {
+            // Hitung total bunga simpanan user
+            $totalBunga = $user->countTotalBungaSimpanan();
+
+            // Buat entri baru di tabel Simpanan
+            $simpanan = new Simpanan();
+            $simpanan->id_admin = Auth::id();
+            $simpanan->id_simpanan_h = $user->simpanan->id_simpanan_h;
+            $simpanan->tanggal = Carbon::now()->format('Y-m-d');
+            $simpanan->nominal = $totalBunga;
+            $simpanan->status = 2; // Atur status sesuai kebutuhan
+            $simpanan->save();
+
+            // Update atau buat entri baru di tabel Simpanan_H
+            $simpananH = $user->simpanan; // Ambil data Simpanan_H dari relasi
+            if (!$simpananH) {
+                $simpananH = new Simpanan_H();
+                $simpananH->id_user = $user->id;
+            }
+            $simpananH->total_simpanan += $totalBunga; // Tambahkan total bunga ke total simpanan
+            $simpananH->save();
+        }
+
+        return redirect()->back()->with('success', 'Perhitungan dan penyimpanan bunga berhasil.');
     }
 }

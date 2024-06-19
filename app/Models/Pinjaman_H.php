@@ -41,5 +41,9 @@ class Pinjaman_H extends Model
         return $this->pinjamans()->sum('pinjaman');
     }
 
-    
+    public function getTotalTerbayar()
+    {
+        return $this->pinjamans()->where('status_pinjaman_d', 1)->sum('pinjaman');
+    }
+
 }

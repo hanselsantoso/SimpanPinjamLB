@@ -10,53 +10,139 @@ use Illuminate\Support\Facades\Auth;
 
 class pinjamanController extends Controller
 {
+    public function index($id)
+    {
+        $pinjaman = Pinjaman_H::findOrFail($id);
+        return view('admin.detailUserPinjaman', compact('pinjaman'));
+    }
     function doCreatePinjaman(Request $request) {
         $pinjamanH = new Pinjaman_H();
         $pinjamanH->tanggal_pinjaman = Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d');
-        $pinjamanH->jatuh_tempo = Carbon::createFromFormat('d-m-Y', $request->tgl)->addMonth()->format('Y-m-d');
+        $pinjamanH->jatuh_tempo = Carbon::createFromFormat('d-m-Y', $request->tgl)->addMonths($request->totalCicilan)->format('Y-m-d');
         $pinjamanH->id_user = $request->idUser;
-        $pinjamanH->total_pinjaman = $request->nominal + ($request->nominal * ($request->bungaPinjaman / 100)) ;
-        $pinjamanH->total_cicilan = $request->totalCicilan ;
+        $pinjamanH->total_pinjaman = $request->nominal;
+        $pinjamanH->total_cicilan = $request->totalCicilan;
         $pinjamanH->save();
 
+        if ($pinjamanH) {
+            $remainingPrincipal = $request->nominal;
+            $monthlyInstallment = $request->nominal / $request->totalCicilan;
+            $interestRate = $request->bungaPinjaman / 100;
 
-        // if ($pinjamanH) {
-        //     $pinjaman = new Pinjaman_D();
-        //     $pinjaman->id_pinjaman_h = $pinjamanH->id_pinjaman_h;
-        //     $pinjaman->id_admin = Auth::id();
-        //     $pinjaman->tanggal = Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d');
-        //     $pinjaman->nominal = $request->nominal;
-        //     $pinjaman->status = $request->status;
-        //     $pinjaman->save();
-        // }
-        return redirect()->back()->with('success', 'Berhasil menyimpan data pinjaman!');
+            for ($i = 0; $i < $request->totalCicilan; $i++) {
+                $interest = $remainingPrincipal * $interestRate / 12; // Assuming monthly interest rate
+                $principal = $monthlyInstallment;
+                $totalMonthlyPayment = $principal + $interest;
+
+                $pinjamanD = new Pinjaman_D();
+                $pinjamanD->id_pinjaman_h = $pinjamanH->id_pinjaman_h;
+                $pinjamanD->id_admin = Auth::id();
+                $pinjamanD->tanggal = Carbon::createFromFormat('d-m-Y', $request->tgl)->addMonths($i+1)->format('Y-m-d');
+                $pinjamanD->pinjaman = $totalMonthlyPayment;
+                $pinjamanD->status_pinjaman_d = 0; // Assuming initial status
+                $pinjamanD->save();
+
+                // Reduce remaining principal by the amount of principal paid
+                $remainingPrincipal -= $principal;
+            }
+        }
+
+        return redirect()->route('detailUser', ['id' => $pinjamanH->id_user])->with('success', 'Berhasil menyimpan data pinjaman!');
     }
 
-    function bayarPinjaman(Request $request){
-        $pinjamanD = new Pinjaman_D();
-        $pinjamanD->id_pinjaman_h = $request->idByarPinjaman;
-        $pinjamanD->id_admin = Auth::id();
-        $pinjamanD->tanggal = Carbon::createFromFormat('d-m-Y', $request->tgl)->format('Y-m-d');
-        $pinjamanD->pinjaman = $request->nominal;
-        $pinjamanD->status_pinjaman_d = 1;
+    public function bayarPinjaman(Request $request, $id)
+    {
+        $request->validate([
+            'nominal' => 'required|numeric|min:0',
+        ]);
+
+        // Ambil detail pinjaman berdasarkan ID
+        $pinjamanD = Pinjaman_D::findOrFail($id);
+
+        // Ambil pinjaman header terkait
+        $pinjamanH = $pinjamanD->pinjamanH;
+
+        // Nominal pembayaran
+        $payment = $request->nominal;
+
+        // Proses pembayaran
+        if ($payment >= $pinjamanD->pinjaman) {
+            // Pembayaran cukup untuk melunasi cicilan ini
+            // $payment -= $pinjamanD->pinjaman;
+            // $pinjamanD->pinjaman = 0;
+            $pinjamanD->status_pinjaman_d = 1;
+        } else {
+            // Pembayaran sebagian cicilan ini
+            $pinjamanD->pinjaman -= $payment;
+            $payment = 0;
+        }
+
         $pinjamanD->save();
 
-        if ($pinjamanD) {
-            $pinjamanH = Pinjaman_H::find($request->idByarPinjaman);
-            if ($request->nominal >= $pinjamanH->total_pinjaman){
-                $pinjamanH->total_pinjaman = $pinjamanH->total_pinjaman - $request->nominal;
-                $pinjamanH->total_cicilan = 0;
-                $pinjamanH->status_pinjaman_h = 0;
-            }else{
-                $pinjamanH->total_pinjaman = $pinjamanH->total_pinjaman - $request->nominal;
-                $pinjamanH->total_cicilan = $pinjamanH->total_cicilan - 1;
-                $pinjamanH->jatuh_tempo = Carbon::createFromFormat('Y-m-d', $pinjamanH->jatuh_tempo)->addMonth()->format('Y-m-d');
-            }
-            
+        // Perbarui total cicilan di header
+        $pinjamanH->total_cicilan -= 1;
+
+        // Perbarui status pinjaman header jika semua cicilan lunas
+        if ($pinjamanH->pinjamans()->where('status_pinjaman_d', 'Belum Lunas')->count() == 0) {
+            $pinjamanH->status_pinjaman_h = 1;
+            $pinjamanH->total_cicilan = 0;
         }
+
         $pinjamanH->save();
-        
-        return redirect()->back()->with('success', 'Berhasil membayar cicilan!');
+
+        return redirect()->route('pinjaman', ['id' => $pinjamanH->id_pinjaman_h])->with('success', 'Pembayaran pinjaman berhasil.');
     }
 
+    public function batalkanPembayaran(Request $request, $id)
+    {
+        $request->validate([
+            'nominal' => 'required|numeric|min:0',
+        ]);
+
+        // Ambil detail pinjaman berdasarkan ID
+        $pinjamanD = Pinjaman_D::findOrFail($id);
+
+        // Ambil pinjaman header terkait
+        $pinjamanH = $pinjamanD->pinjamanH;
+
+        // Nominal pembatalan
+        $cancellationAmount = $request->nominal;
+
+        // Proses pembatalan pembayaran
+        if ($pinjamanD->status_pinjaman_d == 1) {
+            // Pembatalan penuh, kembalikan nominal penuh ke pinjaman
+            // $pinjamanD->pinjaman = $cancellationAmount;
+            $pinjamanD->status_pinjaman_d = 0;
+        } else {
+            // Pembatalan sebagian cicilan ini
+            $pinjamanD->pinjaman += $cancellationAmount;
+        }
+
+        $pinjamanD->save();
+
+        // Perbarui total cicilan di header
+        $pinjamanH->total_cicilan += 1;
+
+        // Perbarui status pinjaman header jika ada cicilan yang belum lunas
+        $pinjamanH->status_pinjaman_h = 0;
+
+        $pinjamanH->save();
+
+        return redirect()->route('pinjaman', ['id' => $pinjamanH->id_pinjaman_h])->with('success', 'Pembatalan pembayaran pinjaman berhasil.');
+    }
+
+
+    public function hapusPinjaman($id)
+    {
+        // Ambil pinjaman header berdasarkan ID
+        $pinjamanH = Pinjaman_H::findOrFail($id);
+
+        // Hapus semua detail pinjaman (pinjaman_d)
+        $pinjamanH->pinjamans()->delete();
+
+        // Hapus header pinjaman (pinjaman_h)
+        $pinjamanH->delete();
+
+        return redirect()->back()->with('success', 'Pinjaman dan detailnya berhasil dihapus.');
+    }
 }

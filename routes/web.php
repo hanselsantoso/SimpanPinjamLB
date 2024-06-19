@@ -37,6 +37,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
     Route::get('/detailUser/{id}', [AdminController::class, 'detailUser'])->name('detailUser');
+    Route::post('/hitungDanSimpanBunga', [AdminController::class, 'hitungDanSimpanBunga'])->name('hitungDanSimpanBunga');
 
 
     Route::post('/createSimpanan', [simpananController::class, 'doCreate'])->name('createSimpanan');
@@ -79,14 +80,15 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/deletePinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deleteAturanPinjaman');
     Route::post('/aktifPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifAturanPinjaman');
 
-    Route::get('/pinjaman', [pinjamanController::class, 'index'])->name('pinjaman');
+    Route::get('/detailUser/pinjaman/{id}', [pinjamanController::class, 'index'])->name('pinjaman');
     Route::post('/createPinjaman', [pinjamanController::class, 'doCreatePinjaman'])->name('createPinjaman');
     Route::post('/updatePinjaman', [pinjamanController::class, 'doUpdatePinjaman'])->name('updatePinjaman');
-    Route::post('/deletePinjaman', [pinjamanController::class, 'doDeletePinjaman'])->name('deletePinjaman');
+    Route::post('/hapusPinjaman/{id}', [pinjamanController::class, 'hapusPinjaman'])->name('hapusPinjaman');
     Route::post('/aktifPinjaman', [pinjamanController::class, 'doAktifPinjaman'])->name('aktifPinjaman');
-    
-    Route::post('/bayarPinjaman', [pinjamanController::class, 'bayarPinjaman'])->name('bayarPinjaman');
-    
+
+    Route::post('/detailUser/bayarPinjaman/{id}', [pinjamanController::class, 'bayarPinjaman'])->name('bayarPinjaman');
+    Route::post('/detailUser/batalkanPembayaran/{id}', [pinjamanController::class, 'batalkanPembayaran'])->name('batalkanPembayaran');
+
 });
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){

@@ -114,4 +114,26 @@ class User extends Authenticatable
             'totalCicilan' => $totalCicilan,
         ];
     }
+
+    public function countTotalBungaSimpanan()
+    {
+        $totalBunga = 0;
+
+        // Ambil total simpanan user
+        $totalSimpanan = $this->simpanan->total_simpanan;
+
+        // Cari aturan yang sesuai dengan total simpanan pengguna
+        $aturan = Aturan::where('minimal_tabungan', '<=', $totalSimpanan)
+                        ->where('maximal_tabungan', '>=', $totalSimpanan)
+                        ->where('status', 1)
+                        ->first();
+
+        if ($aturan && $aturan->bunga) {
+            // Hitung bunga berdasarkan aturan
+            $bunga = $aturan->bunga->bunga;
+            $totalBunga = $totalSimpanan * ($bunga / 100);
+        }
+
+        return $totalBunga;
+    }
 }
