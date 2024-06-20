@@ -50,6 +50,7 @@
                                 <a class="dropdown-item" href="/admin/cicilan">{{ __('Cicilan') }}</a>
                                 <a class="dropdown-item" href="/admin/aturanPinjaman">{{ __('Aturan Pinjaman') }}</a>
                                 <a class="dropdown-item" href="/admin/iuran">{{ __('IuranWajib') }}</a>
+                                <a class="dropdown-item" href="/admin/shu">{{ __('SHU') }}</a>
                             </div>
                         </li>
                         </li>

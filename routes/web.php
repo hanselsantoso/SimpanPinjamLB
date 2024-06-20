@@ -8,6 +8,7 @@ use App\Http\Controllers\bungaPinjamanController;
 use App\Http\Controllers\cicilanController;
 use App\Http\Controllers\iuranController;
 use App\Http\Controllers\pinjamanController;
+use App\Http\Controllers\SHUController;
 use App\Http\Controllers\simpananController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +80,12 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/updatePinjaman', [aturanPinjamanController::class, 'doUpdatePinjaman'])->name('updateAturanPinjaman');
     Route::post('/deletePinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deleteAturanPinjaman');
     Route::post('/aktifPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifAturanPinjaman');
+
+    Route::get('/shu', [SHUController::class, 'index'])->name('cicilan');
+    Route::post('/updateSHU', [SHUController::class, 'doUpdateSHU'])->name('updateSHU');
+    Route::post('/deleteSHU', [SHUController::class, 'doDeleteSHU'])->name('deleteSHU');
+    Route::post('/aktifSHU', [SHUController::class, 'doAktifSHU'])->name('aktifSHU');
+
 
     Route::get('/detailUser/pinjaman/{id}', [pinjamanController::class, 'index'])->name('pinjaman');
     Route::post('/createPinjaman', [pinjamanController::class, 'doCreatePinjaman'])->name('createPinjaman');
