@@ -21,4 +21,9 @@ class PemegangSHU extends Model
     {
         return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
     }
+
+    public function shu()
+    {
+        return $this->hasMany(LogSHU::class, 'id_pemegang_shu','id_pemegang_shu');
+    }
 }

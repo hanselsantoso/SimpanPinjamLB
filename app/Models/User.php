@@ -115,12 +115,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function countTotalBungaSimpanan()
+    public function countTotalBungaPinjaman()
     {
         $totalBunga = 0;
 
         // Ambil total simpanan user
-        $totalSimpanan = $this->simpanan->total_simpanan;
+        $totalSimpanan = $this->simpanan()->whereHas('user', function ($query) {
+            $query->where('role', 1);
+        })->sum('total_simpanan');
 
         // Cari aturan yang sesuai dengan total simpanan pengguna
         $aturan = Aturan::where('minimal_tabungan', '<=', $totalSimpanan)
@@ -128,12 +130,27 @@ class User extends Authenticatable
                         ->where('status', 1)
                         ->first();
 
+        $totalPinjaman = $this->pinjaman()->whereHas('user', function ($query) {
+            $query->where('role', 1);
+        })->sum('total_pinjaman');
         if ($aturan && $aturan->bunga) {
             // Hitung bunga berdasarkan aturan
-            $bunga = $aturan->bunga->bunga;
-            $totalBunga = $totalSimpanan * ($bunga / 100);
+            $bunga = $aturan->bungaPinjaman->bunga_pinjaman;
+            $totalBunga = $totalPinjaman * ($bunga / 100);
         }
 
         return $totalBunga;
+    }
+
+    public function sumAllPinjamanAktif()
+    {
+        $this->pinjaman->sum(function($pinjaman) {
+            return $pinjaman->total_pinjaman * ($pinjaman->bunga_pinjaman / 100);
+        });
+    }
+
+    public function sumAllBungaSimpanan()
+    {
+        return $this->simpanan->simpanans->where('status', 2)->sum('nominal');
     }
 }

@@ -81,10 +81,12 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/deletePinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deleteAturanPinjaman');
     Route::post('/aktifPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifAturanPinjaman');
 
-    Route::get('/shu', [SHUController::class, 'index'])->name('cicilan');
+    Route::get('/shu', [SHUController::class, 'index'])->name('shu');
     Route::post('/updateSHU', [SHUController::class, 'doUpdateSHU'])->name('updateSHU');
     Route::post('/deleteSHU', [SHUController::class, 'doDeleteSHU'])->name('deleteSHU');
     Route::post('/aktifSHU', [SHUController::class, 'doAktifSHU'])->name('aktifSHU');
+
+    Route::get('/hitungshu', [SHUController::class, 'hitungshu'])->name('hitungshu');
 
 
     Route::get('/detailUser/pinjaman/{id}', [pinjamanController::class, 'index'])->name('pinjaman');
