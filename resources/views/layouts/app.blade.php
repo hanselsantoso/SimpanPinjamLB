@@ -57,6 +57,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/index">{{ __('Nasabah') }}</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/listSHU">{{ __('Log SHU') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

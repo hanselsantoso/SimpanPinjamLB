@@ -142,6 +142,24 @@ class User extends Authenticatable
         return $totalBunga;
     }
 
+    
+    public function countTotalBungaSimpanan()
+    {
+        $totalSimpanan = $this->simpanan->total_simpanan;
+
+        $aturan = Aturan::where('minimal_tabungan', '<=', $totalSimpanan)
+                        ->where('maximal_tabungan', '>=', $totalSimpanan)
+                        ->where('status', 1)
+                        ->first();
+
+        if (!$aturan || !$aturan->bunga) {
+            return 0;
+        }
+
+        $interestRate = $aturan->bunga->bunga;
+        return $totalSimpanan * ($interestRate / 100);
+    }
+
     public function sumAllPinjamanAktif()
     {
         $this->pinjaman->sum(function($pinjaman) {
