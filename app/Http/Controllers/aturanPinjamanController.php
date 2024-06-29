@@ -66,9 +66,9 @@ class aturanPinjamanController extends Controller
     }
 
     public function doAktifPinjaman(Request $request){
-        $data = AturanPinjaman::where('id_iuran',$request->id)
+        $data = AturanPinjaman::where('id_pinjaman',$request->id)
          ->update([
-            'status_iuran' => 1,
+            'status_pinjaman' => 1,
          ]);
 
          if ($data) {

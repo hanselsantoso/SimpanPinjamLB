@@ -93,4 +93,8 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Perhitungan dan penyimpanan bunga berhasil.');
     }
+
+    public function tambahNasabah(){
+        return view('Admin.tambahNasabah');
+    }
 }

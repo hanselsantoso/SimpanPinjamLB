@@ -41,7 +41,7 @@
 
                                     </td>
                                     <td>
-                                            <button data-toggle="modal" data-target="#updateBunga" class="buttonEdit btn btn-warning" style="text-justify: center">
+                                            <button data-toggle="modal" data-target="#updateBungaPinjaman" class="buttonEdit btn btn-warning" style="text-justify: center">
                                                 <span>Ubah</span>
                                             </button>
                                             @if ($item["status"] == 0)
@@ -84,13 +84,13 @@
                     <h4 class="modal-title">Tambah Aturan Simpanan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createBungaPinjaman" method="post">
+                <form action="/admin/createPinjaman" method="post">
                     @csrf
                     {{-- <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}"> --}}
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Bunga Pinjaman :</label>
-                            <input type="number" class="form-control" name="bunga" id="bunga">
+                            <input type="number" step="0.01" class="form-control" name="bunga" id="bunga">
                         </div>
                     </div>
 
@@ -103,7 +103,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="updateBunga Pinjaman">
+    <div class="modal fade" id="updateBungaPinjaman">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -111,14 +111,14 @@
                     <h4 class="modal-title">Ubah Aturan Bunga Pinjaman</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/updateBunga" method="post">
+                <form action="/admin/updateBungaPinjaman" method="post">
                     @csrf
                     <input type="hidden" id="idUserBunga" name="idUserBunga" value="
                     ">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Bunga:</label>
-                            <input type="number" class="form-control" name="bunga" id="bungaUpdate">
+                            <input type="number" step="0.01" class="form-control" name="bunga" id="bungaUpdate">
                         </div>
                     </div>
 

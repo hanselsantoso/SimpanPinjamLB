@@ -37,6 +37,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //admin
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
+    Route::get('/tambahNasabah', [AdminController::class, 'tambahNasabah'])->name('tambahNasabah');
     Route::get('/detailUser/{id}', [AdminController::class, 'detailUser'])->name('detailUser');
     Route::post('/hitungDanSimpanBunga', [AdminController::class, 'hitungDanSimpanBunga'])->name('hitungDanSimpanBunga');
 
@@ -76,10 +77,10 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/aktifIuran', [iuranController::class, 'doAktifIuran'])->name('aktifIuran');
 
     Route::get('/aturanPinjaman', [aturanPinjamanController::class, 'index'])->name('aturanPinjaman');
-    Route::post('/createPinjaman', [aturanPinjamanController::class, 'doCreatePinjaman'])->name('createAturanPinjaman');
-    Route::post('/updatePinjaman', [aturanPinjamanController::class, 'doUpdatePinjaman'])->name('updateAturanPinjaman');
-    Route::post('/deletePinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deleteAturanPinjaman');
-    Route::post('/aktifPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifAturanPinjaman');
+    Route::post('/createAturanPinjaman', [aturanPinjamanController::class, 'doCreatePinjaman'])->name('createAturanPinjaman');
+    Route::post('/updateAturanPinjaman', [aturanPinjamanController::class, 'doUpdatePinjaman'])->name('updateAturanPinjaman');
+    Route::post('/deleteAturanPinjaman', [aturanPinjamanController::class, 'doDeletePinjaman'])->name('deleteAturanPinjaman');
+    Route::post('/aktifAturanPinjaman', [aturanPinjamanController::class, 'doAktifPinjaman'])->name('aktifAturanPinjaman');
 
     Route::get('/shu', [SHUController::class, 'index'])->name('shu');
     Route::post('/updateSHU', [SHUController::class, 'doUpdateSHU'])->name('updateSHU');

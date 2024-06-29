@@ -10,9 +10,10 @@
                 <div class="col-4" style="text-align: right">
                     <form action="/admin/hitungshu" method="post">
                         @csrf
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin mau menambah SHU?')">
                             Tambah SHU
                         </button>
+                    </form>
                     </form>
                 </div>
                 </div>

@@ -4,13 +4,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>User List</h2>
+                    <h2>Daftar Nasabah</h2>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <form action="/admin/hitungDanSimpanBunga" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary">Hitung Bunga Seluruh Nasabah</button>
                     </form>
+                </div>
+                <div class="col-md-3">
+                    <a href="/admin/tambahNasabah" class="btn btn-primary">Tambah Nasabah</a>
                 </div>
             </div>
             <table id="tabelUser" class="table table-striped table-bordered">
@@ -35,11 +38,6 @@
                             <td> {{ format_idr($item->simpanan["total_simpanan"] ?? 0) }}</td>
                             <td>
                                 <a href="{{ route('detailUser', ['id' => $item["id"]]) }}" class="btn btn-primary">View</a>
-
-                                {{-- <button class="btn btn-primary" style="text-justify: center">
-                                    <input value="{{$item["id"]}}" type="hidden" name="idUser">
-                                    <span>View</span>
-                                </button> --}}
                             </td>
                         </tr>
                     @endforeach

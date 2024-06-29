@@ -46,7 +46,7 @@
                                                 <span>Ubah</span>
                                             </button>
                                             @if ($item["status_pinjaman"] == 0)
-                                                <form action="/admin/aktifpinjaman" method="post">
+                                                <form action="/admin/aktifAturanPinjaman" method="post">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item["id_pinjaman"]}}">
                                                     <button class="btn btn-success" style="text-justify: center">
@@ -54,7 +54,7 @@
                                                     </button>
                                                 </form>
                                             @else
-                                                <form action="/admin/deletePinjaman" method="post">
+                                                <form action="/admin/deleteAturanPinjaman" method="post">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$item["id_pinjaman"]}}">
                                                     <button class="btn btn-danger" style="text-justify: center">
@@ -84,13 +84,12 @@
                     <h4 class="modal-title">Tambah Aturan Pinjaman</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createPinjaman" method="post">
+                <form action="/admin/createAturanPinjaman" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Pinjaman:</label>
                             <input type="number" step="0.01" class="form-control" name="pinjaman" id="pinjaman">
-                        </div>
                         </div>
                     </div>
 
@@ -111,7 +110,7 @@
                     <h4 class="modal-title">Ubah Aturan Pinjaman</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/updatePinjaman" method="post">
+                <form action="/admin/updateAturanPinjaman" method="post">
                     @csrf
                     <input type="hidden" id="idUserPinjaman" name="idUserPinjaman" value="
                     ">

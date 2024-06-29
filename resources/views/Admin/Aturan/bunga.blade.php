@@ -90,7 +90,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Bunga :</label>
-                            <input type="number" class="form-control" name="bunga" id="bunga">
+                            <input type="number" step="0.01" class="form-control" name="bunga" id="bunga">
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Bunga:</label>
-                            <input type="number" class="form-control" name="bunga" id="bungaUpdate">
+                            <input type="number" step="0.01" class="form-control" name="bunga" id="bungaUpdate">
                         </div>
                     </div>
 
