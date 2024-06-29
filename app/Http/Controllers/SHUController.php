@@ -103,8 +103,15 @@ class SHUController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Berhasil menghitung SHU!');
+        return redirect()->route('listSHU')->with('success', 'Berhasil menghitung SHU!');
 
+    }
+
+    public function listSHU(){
+        $shu = LogShu::all();
+        return view('Admin.listSHU',with([
+            'shu' => $shu
+        ]));
     }
 
 

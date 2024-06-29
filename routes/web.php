@@ -86,7 +86,9 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::post('/deleteSHU', [SHUController::class, 'doDeleteSHU'])->name('deleteSHU');
     Route::post('/aktifSHU', [SHUController::class, 'doAktifSHU'])->name('aktifSHU');
 
-    Route::get('/hitungshu', [SHUController::class, 'hitungshu'])->name('hitungshu');
+    Route::post('/hitungshu', [SHUController::class, 'hitungshu'])->name('hitungshu');
+    Route::get('/listSHU', [SHUController::class, 'listSHU'])->name('listSHU');
+
 
 
     Route::get('/detailUser/pinjaman/{id}', [pinjamanController::class, 'index'])->name('pinjaman');

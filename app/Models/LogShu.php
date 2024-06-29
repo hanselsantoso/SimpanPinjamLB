@@ -23,4 +23,9 @@ class LogShu extends Model
     {
         return $this->belongsTo(PemegangShu::class, 'id_pemegang_shu');
     }
+
+    public function getTanggal($value)
+    {
+        return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
+    }
 }
