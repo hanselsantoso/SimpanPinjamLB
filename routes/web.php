@@ -40,10 +40,13 @@ Route::post('/doResetPassword', [SiteController::class, 'doResetPassword'])->nam
 //admin
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
-    Route::post('/tambahNasabah', [AdminController::class, 'tambahNasabah'])->name('tambahNasabah');
     Route::get('/detailUser/{id}', [AdminController::class, 'detailUser'])->name('detailUser');
     Route::post('/hitungDanSimpanBunga', [AdminController::class, 'hitungDanSimpanBunga'])->name('hitungDanSimpanBunga');
-
+    
+    Route::post('/tambahNasabah', [AdminController::class, 'tambahNasabah'])->name('tambahNasabah');
+    Route::post('/ubahNasabah', [AdminController::class, 'ubahNasabah'])->name('ubahNasabah');
+    Route::post('/suspendUser/{id}', [AdminController::class, 'suspendUser'])->name('suspendUser');
+    Route::post('/aktifUser/{id}', [AdminController::class, 'aktifUser'])->name('unSuspendUser');
 
     Route::post('/createSimpanan', [simpananController::class, 'doCreate'])->name('createSimpanan');
     Route::post('/updateSimpanan', [simpananController::class, 'doUpdate'])->name('updateSimpanan');
@@ -108,5 +111,5 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){
     Route::get('/index', [UserController::class, 'index'])->name('user_index');
-
+    Route::get('/pinjaman', [UserController::class, 'pinjaman'])->name('pinjaman.user');
 });

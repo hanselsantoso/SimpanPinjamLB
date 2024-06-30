@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'nik',
+        'alamat',
         'tanggal_lahir',
         'tempat_lahir',
         'telp',
@@ -50,6 +51,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getTanggal($value)
+    {
+        return $value ? $this->asDateTime($value)->format('d-m-Y') : null;
+    }
 
     public function isAdmin(){
         return $this->role === 1;

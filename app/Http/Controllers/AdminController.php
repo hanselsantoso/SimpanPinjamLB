@@ -15,7 +15,7 @@ class AdminController extends Controller
 {
     //
     public function index(Request $request) {
-        $user = User::where('status',1)->where('role',1)->get();
+        $user = User::where('role',1)->get();
         return view('Admin.dashboard',with([
             'user' => $user
     ]));
@@ -111,5 +111,41 @@ class AdminController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Nasabah berhasil ditambahkan.');
+    }
+
+    public function ubahNasabah(Request $request)
+    {   
+        // Update user data
+        $user = User::find($request->input('idUser'));
+        $user->name = $request->input('name');
+        $user->nik = $request->input('nik');
+        $user->alamat = $request->input('alamat');
+        $user->tempat_lahir = $request->input('tempatLahir');
+        $user->tanggal_lahir = Carbon::createFromFormat('d-m-Y', $request->tglLahirUpdate)->format('Y-m-d');
+        $user->telp = $request->input('telp');
+        $user->email = $request->input('email');
+        $user->save();
+
+        return redirect()->back()->with('success', 'Nasabah berhasil diperbarui.');
+    }
+
+    public function suspendUser(Request $request, $id)
+    {
+        // Suspend user
+        $user = User::find($id);
+        $user->status = 0;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Nasabah berhasil di-suspend.');
+    }
+
+    public function aktifUser(Request $request, $id)
+    {
+        // Activate user
+        $user = User::find($id);
+        $user->status = 1;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Nasabah berhasil di-aktifkan.');
     }
 }

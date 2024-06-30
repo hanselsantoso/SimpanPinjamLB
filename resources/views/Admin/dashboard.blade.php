@@ -39,7 +39,7 @@
                             <input type="hidden" name="alamat" value="{{$item["alamat"] }}">
                             <input type="hidden" name="email" value="{{$item["email"] }}">
                             <input type="hidden" name="tempatLahir" value="{{$item["tempat_lahir"] }}">
-                            <input type="hidden" name="tanggalLahir" value="{{$item["tanggal_lahir"] }}">
+                            <input type="hidden" name="tanggalLahir" value="{{$item->getTanggal($item["tanggal_lahir"])}}">
                             <input type="hidden" name="telp" value="{{$item["telp"] }}">
                             <td>{{ $loop->index + 1 }}</td>
                             <td> {{$item["name"] }}</td>
@@ -50,6 +50,18 @@
                                 <a href="{{ route('detailUser', ['id' => $item["id"]]) }}" class="btn btn-primary">View</a>
 
                                 <a href="#" class="btn btn-warning buttonEdit" data-toggle="modal" data-target="#updateNasabah">Update</a>
+
+                                @if ($item->status == 1)
+                                    <form action="{{ route('suspendUser', ['id' => $item["id"]]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Suspend</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('unSuspendUser', ['id' => $item["id"]]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">Aktifkan</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -149,6 +161,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="modal-body">
+                            <input type="hidden" name="idUser" value="">
                             <div class="form-group">
                                 <label for="nik">NIK:</label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik') }}">
@@ -266,7 +279,7 @@
             $('#updateNasabah').find('input[name="alamat"]').val(alamat);
             $('#updateNasabah').find('input[name="email"]').val(email);
             $('#updateNasabah').find('input[name="tempatLahir"]').val(tempatLahir);
-            // $('#updateNasabah').find('input[name="tglLahirUpdate"]').datepicker('setDate', tanggalLahir);
+            $('#updateNasabah').find('input[name="tglLahirUpdate"]').datepicker('setDate', tanggalLahir);
 
             $("#tglLahirUpdate").datepicker("setDate", tanggalLahir);
             $('#updateNasabah').find('input[name="telp"]').val(telp);
