@@ -39,7 +39,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        {{-- <div class="row mb-3">
                             <label for="tanggalLahir" class="col-md-4 col-form-label text-md-end">{{ __('Tanggal Lahir') }}</label>
                             <div class="col-md-6">
                                 <input id="tanggalLahir" type="text" class="form-control datepicker @error('tanggalLahir') is-invalid @enderror" name="tanggalLahir" value="{{ old('tanggalLahir') }}" required autocomplete="tanggalLahir" autofocus>
@@ -50,7 +50,7 @@
                                 @enderror
                             </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Alamat Email') }}</label>
