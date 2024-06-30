@@ -81,7 +81,7 @@ class User extends Authenticatable
 
     public function getInfo()
     {
-        $totalSimpanan = $this->simpanan->total_simpanan;
+        $totalSimpanan = $this->simpanan->total_simpanan ?? 0;
 
         // Cari aturan yang sesuai dengan total simpanan pengguna
         $aturan = Aturan::where('minimal_tabungan', '<=', $totalSimpanan)
@@ -175,6 +175,6 @@ class User extends Authenticatable
 
     public function sumAllBungaSimpanan()
     {
-        return $this->simpanan->simpanans->where('status', 2)->sum('nominal');
+        return $this->simpanan->simpanans->where('status', 2)->sum('nominal') ?? 0;
     }
 }
