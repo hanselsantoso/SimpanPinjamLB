@@ -43,29 +43,45 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
+                        @if (Auth::check())
+                            @if (Auth::user()->role == 0)
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ __('Admin') }}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/admin/aturan">{{ __('Aturan') }}</a>
+                                        <a class="dropdown-item" href="/admin/bunga">{{ __('Bunga Simpanan') }}</a>
+                                        <a class="dropdown-item" href="/admin/bungaPinjaman">{{ __('Bunga Pinjaman') }}</a>
+                                        <a class="dropdown-item" href="/admin/cicilan">{{ __('Cicilan') }}</a>
+                                        <a class="dropdown-item" href="/admin/aturanPinjaman">{{ __('Aturan Pinjaman') }}</a>
+                                        <a class="dropdown-item" href="/admin/iuran">{{ __('IuranWajib') }}</a>
+                                        <a class="dropdown-item" href="/admin/shu">{{ __('SHU') }}</a>
+                                        <a class="dropdown-item" href="/admin/listSHU">{{ __('Log SHU') }}</a>
+                                    </div>
+                                </li>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/index">{{ __('Nasabah') }}</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ Auth::user()->name }}
+                                    </a>
 
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ __('Admin') }}
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/admin/aturan">{{ __('Aturan') }}</a>
-                                    <a class="dropdown-item" href="/admin/bunga">{{ __('Bunga Simpanan') }}</a>
-                                    <a class="dropdown-item" href="/admin/bungaPinjaman">{{ __('Bunga Pinjaman') }}</a>
-                                    <a class="dropdown-item" href="/admin/cicilan">{{ __('Cicilan') }}</a>
-                                    <a class="dropdown-item" href="/admin/aturanPinjaman">{{ __('Aturan Pinjaman') }}</a>
-                                    <a class="dropdown-item" href="/admin/iuran">{{ __('IuranWajib') }}</a>
-                                    <a class="dropdown-item" href="/admin/shu">{{ __('SHU') }}</a>
-                                    <a class="dropdown-item" href="/admin/listSHU">{{ __('Log SHU') }}</a>
-                                </div>
-                            </li>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin/index">{{ __('Nasabah') }}</a>
-                            </li>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </li>
+                            @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -73,8 +89,8 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -83,7 +99,8 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                            @endif
+                        @endif
                     </ul>
                 </div>
             </div>

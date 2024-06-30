@@ -10,6 +10,7 @@ use App\Http\Controllers\iuranController;
 use App\Http\Controllers\pinjamanController;
 use App\Http\Controllers\SHUController;
 use App\Http\Controllers\simpananController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -33,11 +34,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/resetPassword', [SiteController::class, 'resetPassword'])->name('resetPassword');
+Route::post('/doResetPassword', [SiteController::class, 'doResetPassword'])->name('doResetPassword');
 
 //admin
 Route::prefix('admin')->middleware(['role:0'])->group(function(){
     Route::get('/index', [AdminController::class, 'index'])->name('admin_index');
-    Route::get('/tambahNasabah', [AdminController::class, 'tambahNasabah'])->name('tambahNasabah');
+    Route::post('/tambahNasabah', [AdminController::class, 'tambahNasabah'])->name('tambahNasabah');
     Route::get('/detailUser/{id}', [AdminController::class, 'detailUser'])->name('detailUser');
     Route::post('/hitungDanSimpanBunga', [AdminController::class, 'hitungDanSimpanBunga'])->name('hitungDanSimpanBunga');
 

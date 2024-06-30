@@ -30,7 +30,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach ($user->simpanan->simpanans as $item)
+                    @foreach ($user->simpanan->simpanans ?? [] as $item)
                         <tr>
                             <input type="hidden" id="idSimpanan" value="{{$item["id"]}}">
                             <input type="hidden" id="tanggalSimpanan" value="{{$item->getTanggal($item["tanggal"])}}">

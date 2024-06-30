@@ -94,7 +94,22 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Perhitungan dan penyimpanan bunga berhasil.');
     }
 
-    public function tambahNasabah(){
-        return view('Admin.tambahNasabah');
+
+    public function tambahNasabah(Request $request)
+    {
+        // Create a new User with role 1
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->nik = $request->input('nik');
+        $user->tempat_lahir = $request->input('tempatLahir');
+        $user->tanggal_lahir = $request->input('tglLahir');
+        $user->telp = $request->input('telp');
+        $user->email = $request->input('email');
+        $user->password = bcrypt('abcde12345');
+        $user->status = 1;
+        $user->role = 1;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Nasabah berhasil ditambahkan.');
     }
 }
