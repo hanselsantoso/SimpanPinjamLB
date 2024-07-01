@@ -85,9 +85,10 @@
                                         <td>Lunas</td>
                                     @endif
                                     <td>
-                                        <button data-toggle="modal" class="buttonBayar btn btn-success" onclick="window.location.href='/user/pinjaman'">
+                                        <button data-toggle="modal" class="buttonBayar btn btn-success" onclick="window.location.href='/user/pinjaman/{{$item->id_pinjaman_h}}'">
                                             <span>Detail</span>
                                         </button>
+                                    </td>
                                     </td>
                                 </tr>
 

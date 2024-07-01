@@ -18,9 +18,9 @@ class UserController extends Controller
         ]));
     }
 
-    public function pinjaman()
+    public function pinjaman($id)
     {
-        $pinjaman = Pinjaman_H::findOrFail(auth()->id());
+        $pinjaman = Pinjaman_H::findOrFail($id);
         return view('User.detailPinjaman', compact('pinjaman'));
     }
 }

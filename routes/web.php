@@ -111,5 +111,5 @@ Route::prefix('admin')->middleware(['role:0'])->group(function(){
 
 Route::prefix('user')->middleware(['role:1'])->group(function(){
     Route::get('/index', [UserController::class, 'index'])->name('user_index');
-    Route::get('/pinjaman', [UserController::class, 'pinjaman'])->name('pinjaman.user');
+    Route::get('/pinjaman/{id}', [UserController::class, 'pinjaman'])->name('pinjaman.user');
 });
