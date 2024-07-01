@@ -102,7 +102,8 @@ class AdminController extends Controller
         $user->name = $request->input('name');
         $user->nik = $request->input('nik');
         $user->tempat_lahir = $request->input('tempatLahir');
-        $user->tanggal_lahir = $request->input('tglLahir');
+        $user->tanggal_lahir =  Carbon::createFromFormat('d-m-Y', $request->tglLahir)->format('Y-m-d');
+        $user->alamat = $request->input('alamat');
         $user->telp = $request->input('telp');
         $user->email = $request->input('email');
         $user->password = bcrypt('abcde12345');

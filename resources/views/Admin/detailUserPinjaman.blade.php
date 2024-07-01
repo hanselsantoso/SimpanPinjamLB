@@ -2,7 +2,14 @@
 @section('content')
     <div class="main">
         <div class="container">
-            <h1>Detail Pinjaman</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Detail Pinjaman</h1>
+                </div>
+                <div class="col-md-6">
+                    <a href="{{ url('/admin/detailUser/' . $pinjaman->user["id"]) }}" class="btn btn-primary">Kembali</a>
+                </div>
+            </div>
             <h2>{{$pinjaman->user["name"]}} - {{format_idr($pinjaman->getTotalPinjamanD())}}</h2>
             <h2>Total Terbayar - {{format_idr($pinjaman->getTotalTerbayar())}}</h2>
             <table class="nested-table table table-striped table-bordered">

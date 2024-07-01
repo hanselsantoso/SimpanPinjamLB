@@ -36,6 +36,7 @@ class aturanController extends Controller
             'maximal_tabungan' => $request->maximalSimpanan,
             'id_bunga' => $request->bunga,
             'id_pinjaman' => $request->pinjaman,
+            'id_bunga_pinjaman' => $request->bungaPinjaman,
             'id_iuran' => $request->iuran,
             'id_cicilan' => $request->cicilan,
             'status' => 1,
@@ -52,13 +53,16 @@ class aturanController extends Controller
     }
 
     public function doUpdateAturan(Request $request){
+        // dd($request);
         $data = Aturan::where('id',$request->idUserSimpanan)
          ->update([
             'minimal_tabungan' => $request->minimalSimpanan,
             'maximal_tabungan' => $request->maximalSimpanan,
             'id_bunga' => $request->bunga,
             'id_pinjaman' => $request->pinjaman,
+            'id_bunga_pinjaman' => $request->bungaPinjaman,
             'id_iuran' => $request->iuran,
+            'id_cicilan' => $request->cicilan,
          ]);
 
 

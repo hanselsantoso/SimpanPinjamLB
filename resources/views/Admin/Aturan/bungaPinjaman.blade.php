@@ -84,7 +84,7 @@
                     <h4 class="modal-title">Tambah Aturan Simpanan</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="/admin/createPinjaman" method="post">
+                <form action="/admin/createBungaPinjaman" method="post">
                     @csrf
                     {{-- <input type="hidden" id="idUserSimpanan" name="idUser" value="{{$user["id"]}}"> --}}
                     <div class="modal-body">

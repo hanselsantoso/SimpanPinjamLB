@@ -285,9 +285,9 @@
             let maximalTabungan = data[2];
             let bunga = data[3];
             let pinjaman = data[4];
-            let iuran = data[3];
-            let cicilan = data[4];
-            let bungaPinjaman = data[5];
+            let iuran = data[5];
+            let cicilan = data[6];
+            let bungaPinjaman = data[7];
             $('#idUserSimpanan').val(id).change();
             $("#minimalSimpananUpdate").val(minimalTabungan);
             $("#maximalSimpananUpdate").val(maximalTabungan);
